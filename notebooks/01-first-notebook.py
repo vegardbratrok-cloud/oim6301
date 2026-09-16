@@ -49,6 +49,12 @@ def _():
     return (mo,)
 
 
+@app.cell
+def _():
+    print ('hello, world')
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -95,9 +101,14 @@ def _(mo):
 
 @app.cell
 def _():
-    freight_charges = [16.75, 22.25, 25.00, 20.25, 36.25]
-    freight_charges
+    freight_charges = [16.25, 22.25, 25.00, 20.25, 36.25]
     return (freight_charges,)
+
+
+@app.cell
+def _(freight_charges):
+    print(freight_charges)
+    return
 
 
 @app.cell(hide_code=True)
@@ -118,6 +129,25 @@ def _(mo):
     *The number in brackets is an **index**, and Python counts from zero, so
     `freight_charges[0]` is the first one.*
     """)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[0]
+    return
+
+
+@app.cell
+def _(freight_charges):
+    len(freight_charges)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    total = sum(freight_charges)
+    total
     return
 
 
@@ -185,6 +215,53 @@ def _():
     orders = [10248, 10249, 10250, 10251, 10252]
     orders
     return (orders,)
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[-1]
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[:3]
+    return
+
+
+@app.cell
+def _(freight_charges, orders):
+    orders[0] and freight_charges[0]
+    print(orders[0], freight_charges[0])
+    freight_charges[0], orders[0]
+    return
+
+
+@app.cell
+def _():
+    category = "Confections"
+    len(category)
+    return
+
+
+@app.cell
+def _(orders):
+    sum(orders)
+    return
+
+
+@app.cell
+def _(freight_charges, orders):
+    orders * 2
+    orders + freight_charges
+    return
+
+
+@app.cell
+def _(freight_charges):
+    sorted(freight_charges)
+    sorted(freight_charges, reverse=True)
+    return
 
 
 @app.cell(hide_code=True)
