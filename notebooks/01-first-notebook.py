@@ -101,7 +101,7 @@ def _(mo):
 
 @app.cell
 def _():
-    freight_charges = [16.25, 22.25, 25.00, 20.25, 36.25]
+    freight_charges = [16.75, 22.25, 25.00, 20.25, 36.25]
     return (freight_charges,)
 
 
@@ -148,7 +148,7 @@ def _(freight_charges):
 def _(freight_charges):
     total = sum(freight_charges)
     total
-    return
+    return (total,)
 
 
 @app.cell(hide_code=True)
@@ -323,6 +323,18 @@ def _(mo):
     return
 
 
+@app.cell
+def _():
+    "16.75" + "22.25"
+    return
+
+
+@app.cell
+def _():
+    16.75 + "22.25"
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -354,6 +366,30 @@ def _(mo):
 
     📖 Handbook: Python §3 Expressions and operators
     """)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[0] > 20
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[-1] == max(freight_charges)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    type(freight_charges[0] > 20)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    type(freight_charges[-1] == max(freight_charges))
     return
 
 
@@ -392,6 +428,18 @@ def _(mo):
 
     Your sentence should show `$120.50` and `$24.10`. If it does not, the experiments above left something changed: check that `freight_charges` still starts with `16.75` and that your `total` cell is still there.
     """)
+    return
+
+
+@app.cell
+def _(freight_charges, total):
+    average = total / len(freight_charges)
+    return (average,)
+
+
+@app.cell
+def _(average, total):
+    print(f"Total freight was ${total:.2f}, an average of ${average:.2f} per order.")
     return
 
 
@@ -445,6 +493,22 @@ def _(mo):
     return
 
 
+@app.cell
+def _(freight_charges):
+    below_25 = []
+    for price in freight_charges:
+        if price <= 25:
+            below_25.append(price)
+    below_25
+    return (below_25,)
+
+
+@app.cell
+def _(below_25):
+    print(f"{len(below_25)} charges were below 25, adding up to ${sum(below_25):.2f}.")
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -485,6 +549,30 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.md("""
+    The package name has a typo, so there is nothing named "pandsa".
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The file "sales.csv" does not exist in this project, so it cannot open it.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md("""
+    The bracket was never closed at the end.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
     mo.md(r"""
     # 🙋 A Line That Does Not Break
 
@@ -492,6 +580,12 @@ def _(mo):
 
     `max(["9.50", "16.75", "22.25"])`
     """)
+    return
+
+
+@app.cell
+def _():
+    max(["9.50", "16.75", "22.25"])
     return
 
 
@@ -544,6 +638,16 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    1. Python names line 3.
+    2. I would change line 1, because it cannot do calculations with "pending". It can't sum up a string with floats.
+    3. I would change it to: freight_charges = [16.75, 22.25, 9.50], because "pending" is not a current value. It is a future unknown.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     # ✏️ The List as a Bar Chart
 
     > **Advanced.** Nothing later depends on this, and nothing asks you to do it.
@@ -567,6 +671,18 @@ def _(mo):
 
     The square brackets inside `_ax.bar(...)` are a **list comprehension**, which **iterates** over `orders` and turns each number into text.
     """)
+    return
+
+
+@app.cell
+def _(freight_charges, orders):
+    import matplotlib.pyplot as plt
+
+    _fig, _ax = plt.subplots(figsize=(6, 2.6))
+    _ax.bar([str(_o) for _o in orders], freight_charges)
+    _ax.set_ylabel("freight")
+    _fig
+
     return
 
 
