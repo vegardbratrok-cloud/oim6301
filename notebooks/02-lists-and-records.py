@@ -281,7 +281,7 @@ def _(mo):
 
 @app.cell
 def _():
-    score = 95
+    score = 75
     if score >= 90:
         print("A")
     elif score >= 80:
@@ -295,6 +295,14 @@ def _():
 
 @app.cell
 def _():
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    When a score satisfies two or more of these tests at once, it's the first true condition that decides, and the rest never gets checked.
+    """)
     return
 
 
@@ -322,6 +330,34 @@ def _(mo):
 def _():
     statuses = ["shipped", "pending", "shipped", "cancelled", "shipped"]
     statuses
+    return (statuses,)
+
+
+@app.cell
+def _(statuses):
+    shipped_count = 0
+    for status in statuses:
+        if status == "shipped":
+            shipped_count = shipped_count + 1
+    shipped_count
+    return (shipped_count,)
+
+
+@app.cell
+def _(statuses):
+    not_shipped_count = 0
+    for order_status in statuses:
+        if order_status == "pending" or order_status == "cancelled":
+            not_shipped_count = not_shipped_count + 1
+    not_shipped_count
+    return
+
+
+@app.cell
+def _(shipped_count, statuses):
+    shipped_percentage = shipped_count/len(statuses)*100
+    shipped_percentage
+
     return
 
 
@@ -349,8 +385,22 @@ def _(mo):
 @app.cell
 def _():
     order_lines = ["notebook", "pen"]
-    order_lines.append(["stapler", "tape"])
+    order_lines.extend(["stapler", "tape"])
     len(order_lines)
+    return (order_lines,)
+
+
+@app.cell
+def _(order_lines):
+    print(order_lines[2])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Append only adds one item, even though that one item is a list.
+    """)
     return
 
 
@@ -381,6 +431,20 @@ def _():
     print(sorted(tickers))
     print(tickers.sort())
     tickers
+    return (tickers,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    tickers.sort() prints None because it only rearranged the list and does not actually hand back anything, but sorted(tickers) prints a list because it returns the sorted list.
+    """)
+    return
+
+
+@app.cell
+def _(tickers):
+    sorted(tickers, reverse=True)
     return
 
 
@@ -414,9 +478,31 @@ def _(mo):
 @app.cell
 def _():
     prices = [12.50, 8.00, 19.99]
-    sale_prices = prices
+    sale_prices = prices[:]
     sale_prices.append(4.99)
     prices
+    return prices, sale_prices
+
+
+@app.cell
+def _(prices, sale_prices):
+    prices is sale_prices
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    You want two names to refer to the same list on purpose when you want changes to one variable to be seen everywhere else that list is being used.
+    """)
+    return
+
+
+@app.cell
+def _(sale_prices):
+    for i in range(len(sale_prices)):
+        sale_prices[i] = sale_prices[i] * 0.9
+    sale_prices
     return
 
 
