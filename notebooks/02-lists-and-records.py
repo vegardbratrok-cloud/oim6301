@@ -357,7 +357,6 @@ def _(statuses):
 def _(shipped_count, statuses):
     shipped_percentage = shipped_count/len(statuses)*100
     shipped_percentage
-
     return
 
 
@@ -615,6 +614,24 @@ def _(mo):
     return
 
 
+@app.cell
+def _(first_order):
+    first_order["Freight"]
+    return
+
+
+@app.cell
+def _(first_order):
+    first_order["freight"]
+    return
+
+
+@app.cell
+def _(first_order):
+    first_order[0]
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -704,6 +721,51 @@ def _(mo):
     return
 
 
+@app.cell
+def _(orders):
+    total_freight = 0
+    for order in orders:
+        total_freight = total_freight + order["Freight"]
+    total_freight
+    return
+
+
+@app.cell
+def _(orders):
+    no_shipped_date_count = 0
+    for shipping_order in orders:
+        if shipping_order["ShippedDate"] is None:
+            no_shipped_date_count = no_shipped_date_count + 1
+    no_shipped_date_count
+    return
+
+
+@app.cell
+def _(orders):
+    largest_order = orders[0]
+    for freight_order in orders:
+        if freight_order["Freight"] > largest_order["Freight"]:
+            largest_order = freight_order
+    largest_order
+    return
+
+
+@app.cell
+def _(orders):
+    for check_order in orders:
+        if check_order["ShippedDate"] is None:
+            print(check_order)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    These three orders have two things in common. Their 'OrderID's starts with an 11, compared to 10 for the rest. They are all also from April 2018, almost two years after the rest.
+    """)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -724,10 +786,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    *One row is ...*
-
-    *(Replace this line with your own sentence. If this cell shows you code instead of
-    text, use the cell menu to turn it into a markdown cell.)*
+    One row is one record or entry from a dataset, and can include up to many points of information, called columns.
     """)
     return
 
@@ -754,6 +813,19 @@ def _(mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    For each holding, multiply the stock price with the amount of shares you have, and sum up all the six holdings at the end.
+    """)
+    return
+
+
+@app.cell
+def _():
+    return
+
+
 @app.cell
 def _():
     portfolio = [
@@ -765,6 +837,34 @@ def _():
         {"Symbol": "TSLA", "Shares": 150, "Price": 255.70},
     ]
     portfolio
+    return (portfolio,)
+
+
+@app.cell
+def _(portfolio):
+    portfolio_total = 0
+    for holding in portfolio:
+        portfolio_total = portfolio_total + holding["Shares"] * holding["Price"]
+    portfolio_total
+    return
+
+
+@app.cell
+def _():
+    invoices = [
+        {"Invoice": "INV-001", "Quantity": 12, "UnitPrice": 45.00},
+        {"Invoice": "INV-002", "Quantity": 5,  "UnitPrice": 120.50},
+        {"Invoice": "INV-003", "Quantity": 30, "UnitPrice": 9.75},
+        {"Invoice": "INV-004", "Quantity": 8,  "UnitPrice": 60.00},]
+    return (invoices,)
+
+
+@app.cell
+def _(invoices):
+    invoice_total = 0
+    for items in invoices:
+        invoice_total = invoice_total + items["Quantity"] * items["UnitPrice"]
+    invoice_total
     return
 
 
@@ -816,6 +916,29 @@ def _(mo):
         _where = f"could not write into {_data_dir.name}/: {_error}"
 
     _where
+    return (portfolio_csv,)
+
+
+@app.cell
+def _(portfolio_csv):
+    # open() opens a file; "r" means we are reading it, not writing to it.
+    # portfolio_csv already holds the path to the file, from the cell above.
+    _file = open(portfolio_csv, "r")
+    _file_lines = _file.readlines()  # readlines() reads every line into a list of text
+    _file.close()  # always close a file once you are done reading it
+
+    _header = _file_lines[0]
+    print(_header.strip())  # strip() removes the invisible newline at the end of a line
+
+    file_total = 0
+    for _line in _file_lines[1:]:  # [1:] skips the header line, keeping only data rows
+        _name, _shares, _price = _line.strip().split(",")  # split a line of text into its three parts
+        _shares = int(_shares)      # the file holds everything as text, so convert to a number
+        _price = float(_price)      # same here, for the price
+        print(f"{_name:<8}{_shares:>8}{_price:>10.2f}")
+        file_total = file_total + _shares * _price
+
+    print(f"Total cost: ${file_total:.2f}")
     return
 
 
