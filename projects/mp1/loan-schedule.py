@@ -98,12 +98,11 @@ def _(annual_rates, loan_amount):
     for years, rate in annual_rates.items():
         monthly_rate = rate / 12
         months = years * 12
-        print(monthly_rate)
-        print(months)
         payment = round((loan_amount * monthly_rate) / (1 - (1 + monthly_rate) ** -months),2)
-        print(payment)
         balance = loan_amount
         total_interest = 0
+        print(f"{years}-year loan, monthly payment {payment:,.2f}")
+        print(f"{'Month':>5} {'Payment':>10} {'Interest':>10} {'Principal':>10} {'Balance':>12}")
         for month in range(1, months +1):
             interest = round(balance * monthly_rate, 2)
             total_interest = round(total_interest + interest, 2)
@@ -113,8 +112,8 @@ def _(annual_rates, loan_amount):
                 principal = round(payment - interest, 2)
             this_payment = round(interest + principal, 2)
             balance = round(balance - principal, 2)
-            print(month, this_payment, interest, principal, balance)
-        print("Total interest:", total_interest)
+            print(f"{month:>5} {this_payment:>10,.2f} {interest:>10,.2f} {principal:>10,.2f} {balance:>12,.2f}")
+        print(f"Total interest: {total_interest:,.2f}")
     return
 
 
