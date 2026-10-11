@@ -80,7 +80,8 @@ def _(mo):
 def _():
     loan_amount = 400000
     annual_rates = {30: 0.0703, 15: 0.0642}
-    return annual_rates, loan_amount
+    extra_payment = 200
+    return annual_rates, extra_payment, loan_amount
 
 
 @app.cell(hide_code=True)
@@ -167,11 +168,7 @@ def _(mo):
     mo.md(r"""
     ## 7. Working With the Agent
 
-    *Pick one piece of AI output you did not accept as-is. What did it give you, what did you change, and how did you know? Point to the commit or the cell.*
-
-    *If the agent got it right the first time: what did you do to verify that?*
-
-    Using "years" for the second time.
+    I knew because marimo showed an error saying the cell redefines a variable from another cell, and after the change the table ran and matched my section 4 results. See the section 5 cell, commit “mp1: answer table and sentence”.
     """)
     return
 
@@ -181,8 +178,29 @@ def _(mo):
     mo.md(r"""
     ## 8. Going Further
 
-    *Take at least one step past the main task, in any direction, and use your agent as much as you like. It does not have to work. State what you tried, what you found, and where it is in this notebook.*
+    I tried paying an extra USD 200 every month on each loan (input extra_payment in section 3, code in the section 8 cell). The 30-year loan is paid off in 291 months instead of 360, 69 months sooner, and saves USD 127,538.86 in interest. The 15-year loan is paid off in 165 months instead of 180, 15 months sooner, and saves USD 21,939.64. The extra payment saves far more on the 30-year loan, because that loan carries a large balance for much longer, so more interest is avoided.
     """)
+    return
+
+
+@app.cell
+def _(annual_rates, extra_payment, loan_amount, payments, total_interests):
+    for _years, _rate in annual_rates.items():
+        _r = _rate / 12
+        _balance = loan_amount
+        _month = 0
+        _interest_total = 0
+        while _balance > 0:
+            _month = _month + 1
+            _interest = round(_balance * _r, 2)
+            _principal = round(payments[_years] + extra_payment - _interest, 2)
+            if _principal > _balance:
+                _principal = _balance
+            _interest_total = round(_interest_total + _interest, 2)
+            _balance = round(_balance - _principal, 2)
+        _months_saved = _years * 12 - _month
+        _interest_saved = round(total_interests[_years] - _interest_total, 2)
+        print(f"{_years}-year loan, {extra_payment:,} extra per month: paid off in {_month} months ({_months_saved} months sooner), total interest {_interest_total:,.2f}, saves {_interest_saved:,.2f}")
     return
 
 
