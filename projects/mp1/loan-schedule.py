@@ -102,6 +102,12 @@ def _(annual_rates, loan_amount):
         print(months)
         payment = round((loan_amount * monthly_rate) / (1 - (1 + monthly_rate) ** -months),2)
         print(payment)
+        balance = loan_amount
+        for month in range(1, 4):
+                    interest = round(balance * monthly_rate, 2)
+                    principal = round(payment - interest, 2)
+                    balance = round(balance - principal, 2)
+                    print(month, interest, principal, balance)
     return
 
 
