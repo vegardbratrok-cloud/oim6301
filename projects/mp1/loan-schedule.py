@@ -97,12 +97,14 @@ def _(mo):
 def _(annual_rates, loan_amount):
     payments = {}
     total_interests = {}
+    total_principals = {}
     for years, rate in annual_rates.items():
         monthly_rate = rate / 12
         months = years * 12
         payment = round((loan_amount * monthly_rate) / (1 - (1 + monthly_rate) ** -months),2)
         balance = loan_amount
         total_interest = 0
+        total_principal = 0
         print(f"{years}-year loan, monthly payment {payment:,.2f}")
         print(f"{'Month':>5} {'Payment':>10} {'Interest':>10} {'Principal':>10} {'Balance':>12}")
         for month in range(1, months +1):
@@ -113,12 +115,14 @@ def _(annual_rates, loan_amount):
             else:
                 principal = round(payment - interest, 2)
             this_payment = round(interest + principal, 2)
+            total_principal = round(total_principal + principal, 2)
             balance = round(balance - principal, 2)
             print(f"{month:>5} {this_payment:>10,.2f} {interest:>10,.2f} {principal:>10,.2f} {balance:>12,.2f}")
         print(f"Total interest: {total_interest:,.2f}")
         payments[years] = payment
+        total_principals[years] = total_principal
         total_interests[years] = total_interest
-    return payments, total_interests
+    return payments, total_interests, total_principals
 
 
 @app.cell(hide_code=True)
@@ -145,13 +149,16 @@ def _(mo):
     mo.md(r"""
     ## 6. How I Know These Numbers Are Right
 
-    *At least one check that reaches a result a second, independent way. Name what you compared and what came out.*
+    I added the principal paid in every month, and compared it with the total loan amount, with both coming out to exactly $400,000. This is also consistent with the Excel-table I built before starting the project in marimo.
     """)
     return
 
 
 @app.cell
-def _():
+def _(annual_rates, loan_amount, total_principals):
+    for _years in annual_rates:
+        _matches = total_principals[_years] == loan_amount
+        print(f"{_years}-year loan: principal paid {total_principals[_years]:,.2f}, loan amount {loan_amount:,.2f}, equal: {_matches}")
     return
 
 
