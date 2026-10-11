@@ -184,6 +184,13 @@ def _(mo):
 
 
 @app.cell
+def _(extra_payment, mo):
+    extra_slider = mo.ui.slider(0, 1000, step=50, value=extra_payment, label="Extra payment per month")
+    extra_slider
+    return
+
+
+@app.cell
 def _(annual_rates, extra_payment, loan_amount, payments, total_interests):
     for _years, _rate in annual_rates.items():
         _r = _rate / 12
