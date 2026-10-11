@@ -95,6 +95,8 @@ def _(mo):
 
 @app.cell
 def _(annual_rates, loan_amount):
+    payments = {}
+    total_interests = {}
     for years, rate in annual_rates.items():
         monthly_rate = rate / 12
         months = years * 12
@@ -114,7 +116,9 @@ def _(annual_rates, loan_amount):
             balance = round(balance - principal, 2)
             print(f"{month:>5} {this_payment:>10,.2f} {interest:>10,.2f} {principal:>10,.2f} {balance:>12,.2f}")
         print(f"Total interest: {total_interest:,.2f}")
-    return
+        payments[years] = payment
+        total_interests[years] = total_interest
+    return payments, total_interests
 
 
 @app.cell(hide_code=True)
@@ -122,13 +126,17 @@ def _(mo):
     mo.md(r"""
     ## 5. The Answer
 
-    *A table of your results in the cell below, printed with `print` and f-strings, then one sentence here that answers the question in section 1, with the number in it.*
+    The 15-year mortgage costs USD 797.59 more per month (USD 3,466.86 vs. USD 2,669.27) but saves USD 336,906.69 in total interest (USD 224,035.34 vs. USD 560,942.03), so if your friend can afford the higher monthly payment, the 15-year loan is the better choice.
     """)
     return
 
 
 @app.cell
-def _():
+def _(annual_rates, loan_amount, payments, total_interests):
+    print(f"{'Term':>6} {'Payment':>10} {'Total interest':>15} {'Total paid':>12}")
+    for _years in annual_rates:
+        _total_paid = loan_amount + total_interests[_years]
+        print(f"{_years:>6} {payments[_years]:>10,.2f} {total_interests[_years]:>15,.2f} {_total_paid:>12,.2f}")
     return
 
 
@@ -155,6 +163,8 @@ def _(mo):
     *Pick one piece of AI output you did not accept as-is. What did it give you, what did you change, and how did you know? Point to the commit or the cell.*
 
     *If the agent got it right the first time: what did you do to verify that?*
+
+    Using "years" for the second time.
     """)
     return
 
