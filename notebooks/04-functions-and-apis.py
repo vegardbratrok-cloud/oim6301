@@ -116,28 +116,21 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    """
+@app.cell
+def _(holdings):
     def compute_cost(portfolio):
 
-        \"\"\"
+        """
         Compute the total cost of a portfolio.
         portfolio is a list of tuples (symbol, shares, price).
         Returns the total cost rounded to 2 decimal places.
-        \"\"\"
+        """
         cost_so_far = 0
-        # for symbol, shares, price in portfolio:
-        #     cost_so_far = cost_so_far + shares * price
-    for stock in portfolio
-    print(stock[1], stock[2])
-    stock_cost = stock[1] * stock[2]
-    cost_so_far = cost_so_far + shares * price
-
         for symbol, shares, price in portfolio:
+            cost_so_far = cost_so_far + shares * price
         return round(cost_so_far, 2)
-    """,
-    name="_"
-)
+    compute_cost(holdings)
+    return (compute_cost,)
 
 
 @app.cell
@@ -196,12 +189,99 @@ def _(mo):
     return
 
 
+@app.cell
+def _(holdings, retirement_holdings):
+    def count_shares(portfolio):
+        """
+        Count the total number of shares in a portfolio.
+        portfolio is a list of tuples (symbol, shares, price).
+        """
+        shares_so_far = 0
+        for symbol, shares, price in portfolio:
+            shares_so_far = shares_so_far + shares
+        return shares_so_far
+    count_shares(holdings), count_shares(retirement_holdings)
+    return
+
+
+@app.cell
+def _(holdings, retirement_holdings):
+    def find_largest(portfolio):
+        """
+        Find the holding that cost the most in a portfolio.
+        portfolio is a list of tuples (symbol, shares, price).
+        Returns a tuple (ticker, cost).
+        """
+        best_symbol = None
+        best_cost = 0
+        for symbol, shares, price in portfolio:
+            cost = shares * price
+            if cost > best_cost:
+                best_symbol = symbol
+                best_cost = cost
+        return best_symbol, best_cost
+    find_largest(holdings), find_largest(retirement_holdings)
+    return
+
+
+@app.cell
+def _(holdings):
+    def find_n_largest(portfolio, n):
+        """
+        Find the n holdings that cost the most in a portfolio, largest first.
+        portfolio is a list of tuples (symbol, shares, price).
+        Returns a list of n tuples (ticker, cost).
+        """
+        remaining = list(portfolio)
+        results = []
+        for i in range(n):
+            best_symbol = None
+            best_cost = 0
+            best_index = None
+            for j in range(len(remaining)):
+                symbol, shares, price = remaining[j]
+                cost = shares * price
+                if cost > best_cost:
+                    best_symbol = symbol
+                    best_cost = cost
+                    best_index = j
+            results.append((best_symbol, best_cost))
+            remaining.pop(best_index)
+        return results
+    find_n_largest(holdings, 3)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## ✏️ B · Without `return`
 
     Copy `count_shares` into a new cell under a new name, and put `print(...)` where the `return` was. Call it and keep the result in a name. In a markdown cell under it, answer: what does that name hold, and what could the next cell do with it?
+    """)
+    return
+
+
+@app.cell
+def _(holdings):
+    def print_shares(portfolio):
+        """
+        Like count_shares, but prints the total instead of returning it.
+        portfolio is a list of tuples (symbol, shares, price).
+        """
+        shares_so_far = 0
+        for symbol, shares, price in portfolio:
+            shares_so_far = shares_so_far + shares
+        print(shares_so_far)
+    result = print_shares(holdings)
+    result
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    "result" holds "None" because "print_shares" only prints the number, it never returns it. There's nothing for a later cell to calculate with. If it had used "return shares_so_far" instead, "result" would hold 600, and a later cell could use it for calculation.
     """)
     return
 
