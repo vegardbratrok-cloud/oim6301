@@ -174,6 +174,7 @@ def _(mo):
     For each of the tickers, we want to keep a list of the purchases we still own (oldest first), with how many shares we have left and the price paid. When the client sells, take shares from the oldest purchase first, and move on to the next purchase if the oldest gets used up.
 
     **G ·**
+    The first `results` for "Babson Park" is in Florida, not the Babson Park near Babson College in Massachusetts. Code that always takes `[0]` would have silently picked the Florida place, giving a wrong answer with no error at all to warn that anything went wrong.
     """)
     return
 
@@ -671,20 +672,6 @@ def _(avg_total_gain, total_gain):
     return
 
 
-@app.cell
-def _(mo):
-    mo.md(r"""
-    **Going further, written answer.**
-
-    FIFO total gain: $7,900.00. Average cost total gain: $7,533.33.
-
-    The April sale of AAPL happened early in the year, when only the cheaper January shares (bought at $180.00) and some March shares (bought at $210.00) existed yet, both cheaper than the July shares (bought at $240.00) that hadn't been bought yet. FIFO assumes that sale used up the oldest, cheapest shares first, so it books a bigger gain on that sale than average cost does, which instead blends in only the shares held at that point. The June MSFT sale goes the other way: average cost spreads the $400.00 and $380.00 buys together, giving a slightly bigger gain than FIFO's cheaper-first assumption there. Overall this year, FIFO happens to book the larger total gain.
-
-    A client who must pay tax on gains would rather report under **average cost**, since it shows the smaller total gain this year, meaning a smaller tax bill. A client who wants to show strong investment performance to someone else, such as an employer or a bank considering a loan, would rather report **FIFO**, since it shows the larger total gain.
-    """)
-    return
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -846,7 +833,10 @@ def _(mo):
 
 
 @app.cell
-def _():
+def _(babson_weather):
+    wind_speed = babson_weather["current"]["wind_speed_10m"]
+    wind_unit = babson_weather["current_units"]["wind_speed_10m"]
+    f"The wind is {wind_speed} {wind_unit}."
     return
 
 
@@ -855,6 +845,30 @@ def _(mo):
     mo.md(r"""
     **F · Another town.** Search for `Wellesley` the way the misspelled search did, with the correct spelling. Take the first place out of `results`, then its `latitude`, `longitude` and `admin1`. *Check yourself: latitude 42.29649, in Massachusetts.*
     """)
+    return
+
+
+@app.cell
+def _(requests):
+    wellesley_reply = requests.get(
+        "https://geocoding-api.open-meteo.com/v1/search?name=Wellesley&count=1",
+        timeout=10,
+    )
+    wellesley_results = wellesley_reply.json()["results"]
+    wellesley_first = wellesley_results[0]
+    wellesley_first["latitude"], wellesley_first["longitude"], wellesley_first["admin1"]
+    return (wellesley_first,)
+
+
+@app.cell
+def _(requests):
+    babson_park_reply = requests.get(
+        "https://geocoding-api.open-meteo.com/v1/search?name=Babson Park&count=1",
+        timeout=10,
+    )
+    babson_park_results = babson_park_reply.json()["results"]
+    babson_park_first = babson_park_results[0]
+    babson_park_first["admin1"]
     return
 
 
@@ -868,6 +882,25 @@ def _(mo):
     return
 
 
+@app.cell
+def _(requests, wellesley_first):
+    wellesley_latitude = wellesley_first["latitude"]
+    wellesley_longitude = wellesley_first["longitude"]
+
+    wellesley_url = (
+        "https://api.open-meteo.com/v1/forecast"
+        f"?latitude={wellesley_latitude}&longitude={wellesley_longitude}"
+        "&current=temperature_2m"
+        "&temperature_unit=fahrenheit&timezone=America/New_York"
+    )
+    print(wellesley_url)
+
+    wellesley_weather_reply = requests.get(wellesley_url, timeout=10)
+    wellesley_weather = wellesley_weather_reply.json()
+    wellesley_weather["current"]["temperature_2m"]
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -876,11 +909,63 @@ def _(mo):
     return
 
 
+@app.cell
+def _(requests):
+    babson_daily_url = (
+        "https://api.open-meteo.com/v1/forecast"
+        "?latitude=42.2987&longitude=-71.2595"
+        "&daily=temperature_2m_max,temperature_2m_min"
+        "&temperature_unit=fahrenheit&timezone=America/New_York"
+    )
+    babson_daily_reply = requests.get(babson_daily_url, timeout=10)
+    babson_daily_weather = babson_daily_reply.json()
+    babson_daily_weather["daily"]
+    return (babson_daily_weather,)
+
+
+@app.cell
+def _(babson_daily_weather):
+    babson_dates = babson_daily_weather["daily"]["time"]
+    babson_highs = babson_daily_weather["daily"]["temperature_2m_max"]
+    babson_lows = babson_daily_weather["daily"]["temperature_2m_min"]
+
+    babson_forecast = []
+    for _day in range(len(babson_dates)):
+        babson_forecast.append({
+            "date": babson_dates[_day],
+            "high": babson_highs[_day],
+            "low": babson_lows[_day],
+        })
+
+    babson_forecast
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     > **Advanced · I · A second API.** Kraken, a cryptocurrency exchange, publishes prices with no key: `https://api.kraken.com/0/public/Ticker?pair=XBTUSD`. Request it, then change the pair to `XBTUSX`. Compare the status code and the reply with Open-Meteo's misspelled search. Both answer 200 to a request that failed, and each shows the failure in its own way.
     """)
+    return
+
+
+@app.cell
+def _(requests):
+    kraken_good_reply = requests.get(
+        "https://api.kraken.com/0/public/Ticker?pair=XBTUSD",
+        timeout=10,
+    )
+    kraken_good_reply.status_code, kraken_good_reply.json()
+    return
+
+
+@app.cell
+def _(requests):
+    kraken_bad_reply = requests.get(
+        "https://api.kraken.com/0/public/Ticker?pair=XBTUSX",
+        timeout=10,
+    )
+    kraken_bad_reply.status_code, kraken_bad_reply.json()
     return
 
 
