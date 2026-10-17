@@ -161,8 +161,17 @@ def _(mo):
     France, Germany and Brazil has the most orders, all with 4 orders.
 
     **C ·**
+    1. List. The order lines are many of the same kind of thing, and the customer can add, remove, and reorder them, so we need something that keeps order and can change.
+    2. Set. We only care whether a customer has ordered before, and each customer should appear once. A set drops duplicates automatically.
+    3. Dictionary. We look up units sold by product name, so the product name is the key and the units sold is the value.
+    4. Tuple. It’s one thing with a few parts (carrier, tracking number, ship date) that must never change once recorded, and a tuple can’t be changed after it’s made.
 
     **D ·**
+    For this question, I would rather work with the list of dictionaries. That's because when we read a value, we have to type in the key to get the value, while for tuples, we have to type in the position. It's a lot easier to confuse things and mix up which value is which if we are going off of positions rather than key names.
+
+    Advanced: A year of trades
+
+    For each of the tickers, we want to keep a list of the purchases we still own (oldest first), with how many shares we have left and the price paid. When the client sells, take shares from the oldest purchase first, and move on to the next purchase if the oldest gets used up.
 
     **G ·**
     """)
@@ -501,6 +510,36 @@ def _():
         ("TSLA", 150, 255.70),
     ]
     holdings
+    return (holdings,)
+
+
+@app.cell
+def _(holdings):
+    total_cost = 0
+    for _symbol, _shares, _price in holdings:
+        total_cost = total_cost + _shares * _price
+    total_cost
+    return
+
+
+@app.cell
+def _(holdings):
+    cost_by_ticker = {}
+    for _symbol, _shares, _price in holdings:
+        cost_by_ticker[_symbol] = _shares * _price
+    cost_by_ticker
+    return (cost_by_ticker,)
+
+
+@app.cell
+def _(cost_by_ticker):
+    highest_cost_ticker = None
+    highest_cost = 0
+    for _ticker in cost_by_ticker:
+        if cost_by_ticker[_ticker] > highest_cost:
+            highest_cost = cost_by_ticker[_ticker]
+            highest_cost_ticker = _ticker
+    highest_cost_ticker, highest_cost
     return
 
 
@@ -533,6 +572,116 @@ def _():
         ("2026-08-12", "AAPL", "sell", 40, 250.00),
     ]
     year_trades
+    return (year_trades,)
+
+
+@app.cell
+def _(year_trades):
+    holdings_by_ticker = {}
+    sale_history = []
+    sale_gains_by_ticker = {}
+    total_gain = 0
+
+    for _trade in year_trades:
+        _date, _ticker, _action, _shares, _price = _trade
+
+        if _ticker not in holdings_by_ticker:
+            holdings_by_ticker[_ticker] = []
+
+        if _action == "buy":
+            holdings_by_ticker[_ticker].append({"shares": _shares, "price": _price})
+
+        if _action == "sell":
+            _shares_to_sell = _shares
+            _cost_of_shares_sold = 0
+            for _lot in holdings_by_ticker[_ticker]:
+                if _shares_to_sell > 0:
+                    if _lot["shares"] <= _shares_to_sell:
+                        _cost_of_shares_sold = _cost_of_shares_sold + _lot["shares"] * _lot["price"]
+                        _shares_to_sell = _shares_to_sell - _lot["shares"]
+                        _lot["shares"] = 0
+                    else:
+                        _cost_of_shares_sold = _cost_of_shares_sold + _shares_to_sell * _lot["price"]
+                        _lot["shares"] = _lot["shares"] - _shares_to_sell
+                        _shares_to_sell = 0
+
+            _proceeds = _shares * _price
+            _gain = _proceeds - _cost_of_shares_sold
+            total_gain = total_gain + _gain
+            sale_gains_by_ticker[_ticker] = sale_gains_by_ticker.get(_ticker, 0) + _gain
+            sale_history.append({"date": _date, "ticker": _ticker, "gain": _gain})
+
+    sale_history
+    return holdings_by_ticker, sale_gains_by_ticker, total_gain
+
+
+@app.cell
+def _(holdings_by_ticker, sale_gains_by_ticker, total_gain):
+    shares_left_by_ticker = {}
+    for _ticker in holdings_by_ticker:
+        _shares_remaining = 0
+        for _lot in holdings_by_ticker[_ticker]:
+            if _lot["shares"] > 0:
+                _shares_remaining = _shares_remaining + _lot["shares"]
+        shares_left_by_ticker[_ticker] = _shares_remaining
+
+    total_gain, sale_gains_by_ticker, holdings_by_ticker, shares_left_by_ticker
+    return
+
+
+@app.cell
+def _(year_trades):
+    avg_shares_by_ticker = {}
+    avg_cost_basis_by_ticker = {}
+    avg_gains_by_ticker = {}
+    avg_total_gain = 0
+    avg_sale_history = []
+
+    for _trade in year_trades:
+        _date, _ticker, _action, _shares, _price = _trade
+
+        if _ticker not in avg_shares_by_ticker:
+            avg_shares_by_ticker[_ticker] = 0
+            avg_cost_basis_by_ticker[_ticker] = 0
+
+        if _action == "buy":
+            avg_shares_by_ticker[_ticker] = avg_shares_by_ticker[_ticker] + _shares
+            avg_cost_basis_by_ticker[_ticker] = avg_cost_basis_by_ticker[_ticker] + _shares * _price
+
+        if _action == "sell":
+            _avg_price = avg_cost_basis_by_ticker[_ticker] / avg_shares_by_ticker[_ticker]
+            _cost_of_shares_sold = _shares * _avg_price
+            _proceeds = _shares * _price
+            _gain = _proceeds - _cost_of_shares_sold
+
+            avg_total_gain = avg_total_gain + _gain
+            avg_gains_by_ticker[_ticker] = avg_gains_by_ticker.get(_ticker, 0) + _gain
+            avg_sale_history.append({"date": _date, "ticker": _ticker, "gain": _gain})
+
+            avg_shares_by_ticker[_ticker] = avg_shares_by_ticker[_ticker] - _shares
+            avg_cost_basis_by_ticker[_ticker] = avg_cost_basis_by_ticker[_ticker] - _cost_of_shares_sold
+
+    avg_sale_history
+    return (avg_total_gain,)
+
+
+@app.cell
+def _(avg_total_gain, total_gain):
+    total_gain, avg_total_gain
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    **Going further, written answer.**
+
+    FIFO total gain: $7,900.00. Average cost total gain: $7,533.33.
+
+    The April sale of AAPL happened early in the year, when only the cheaper January shares (bought at $180.00) and some March shares (bought at $210.00) existed yet, both cheaper than the July shares (bought at $240.00) that hadn't been bought yet. FIFO assumes that sale used up the oldest, cheapest shares first, so it books a bigger gain on that sale than average cost does, which instead blends in only the shares held at that point. The June MSFT sale goes the other way: average cost spreads the $400.00 and $380.00 buys together, giving a slightly bigger gain than FIFO's cheaper-first assumption there. Overall this year, FIFO happens to book the larger total gain.
+
+    A client who must pay tax on gains would rather report under **average cost**, since it shows the smaller total gain this year, meaning a smaller tax bill. A client who wants to show strong investment performance to someone else, such as an employer or a bank considering a loan, would rather report **FIFO**, since it shows the larger total gain.
+    """)
     return
 
 
