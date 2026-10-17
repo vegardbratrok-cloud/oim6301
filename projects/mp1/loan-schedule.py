@@ -187,11 +187,11 @@ def _(mo):
 def _(extra_payment, mo):
     extra_slider = mo.ui.slider(0, 1000, step=50, value=extra_payment, label="Extra payment per month")
     extra_slider
-    return
+    return (extra_slider,)
 
 
 @app.cell
-def _(annual_rates, extra_payment, loan_amount, payments, total_interests):
+def _(annual_rates, extra_slider, loan_amount, payments, total_interests):
     for _years, _rate in annual_rates.items():
         _r = _rate / 12
         _balance = loan_amount
@@ -200,14 +200,14 @@ def _(annual_rates, extra_payment, loan_amount, payments, total_interests):
         while _balance > 0:
             _month = _month + 1
             _interest = round(_balance * _r, 2)
-            _principal = round(payments[_years] + extra_payment - _interest, 2)
+            _principal = round(payments[_years] + extra_slider.value - _interest, 2)
             if _principal > _balance:
                 _principal = _balance
             _interest_total = round(_interest_total + _interest, 2)
             _balance = round(_balance - _principal, 2)
         _months_saved = _years * 12 - _month
         _interest_saved = round(total_interests[_years] - _interest_total, 2)
-        print(f"{_years}-year loan, {extra_payment:,} extra per month: paid off in {_month} months ({_months_saved} months sooner), total interest {_interest_total:,.2f}, saves {_interest_saved:,.2f}")
+        print(f"{_years}-year loan, {extra_slider.value:,} extra per month: paid off in {_month} months ({_months_saved} months sooner), total interest {_interest_total:,.2f}, saves {_interest_saved:,.2f}")
     return
 
 
