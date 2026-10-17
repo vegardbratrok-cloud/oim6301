@@ -421,6 +421,83 @@ def _(mo):
     return
 
 
+@app.cell
+def _(requests):
+    def get_temperature(town):
+        """
+        Look up a town, then ask for its current temperature in degrees Fahrenheit.
+        Returns that number.
+        """
+        geocoding_reply = requests.get(
+            "https://geocoding-api.open-meteo.com/v1/search",
+            params={"name": town, "count": 1},
+            timeout=10,
+        )
+        first_result = geocoding_reply.json()["results"][0]
+        latitude = first_result["latitude"]
+        longitude = first_result["longitude"]
+
+        weather_reply = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": latitude,
+                "longitude": longitude,
+                "current": "temperature_2m",
+                "temperature_unit": "fahrenheit",
+                "timezone": "America/New_York",
+            },
+            timeout=10,
+        )
+        return weather_reply.json()["current"]["temperature_2m"]
+    get_temperature("Wellesley")
+    return (get_temperature,)
+
+
+@app.cell
+def _(get_temperature):
+    get_temperature("Babson Park")
+    return
+
+
+@app.cell
+def _(requests):
+    def get_temperature_in_state(town, state):
+        """
+        Like get_temperature, but only looks among places in the given state.
+        Returns the current temperature in degrees Fahrenheit.
+        """
+        geocoding_reply = requests.get(
+            "https://geocoding-api.open-meteo.com/v1/search",
+            params={"name": town, "count": 10},
+            timeout=10,
+        )
+        all_results = geocoding_reply.json()["results"]
+
+        first_in_state = None
+        for result in all_results:
+            if result["admin1"] == state:
+                first_in_state = result
+                break
+
+        latitude = first_in_state["latitude"]
+        longitude = first_in_state["longitude"]
+
+        weather_reply = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": latitude,
+                "longitude": longitude,
+                "current": "temperature_2m",
+                "temperature_unit": "fahrenheit",
+                "timezone": "America/New_York",
+            },
+            timeout=10,
+        )
+        return weather_reply.json()["current"]["temperature_2m"]
+    get_temperature_in_state("Babson Park", "Massachusetts")
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -446,6 +523,64 @@ def _(mo):
 
     **Going further.** Write `town_history(name)`, which takes a town's name, makes both requests, and returns the history.
     """)
+    return
+
+
+@app.cell
+def _(requests):
+    wellesley_search = requests.get(
+        "https://oim.zhili.dev/ma/towns",
+        params={"name": "Wellesley"},
+        timeout=10,
+    ).json()
+    wellesley_record = wellesley_search["items"][0]
+    wellesley_dor_code = wellesley_record["dor_code"]
+    wellesley_dor_code
+    return (wellesley_dor_code,)
+
+
+@app.cell
+def _(requests, wellesley_dor_code):
+    wellesley_history = requests.get(
+        f"https://oim.zhili.dev/ma/towns/{wellesley_dor_code}/history",
+        params={"from_year": 2026, "to_year": 2026},
+        timeout=10,
+    ).json()
+    wellesley_history
+    return (wellesley_history,)
+
+
+@app.cell
+def _(wellesley_history):
+    wellesley_year = wellesley_history["years"][0]
+    wellesley_value = wellesley_year["average_single_family_value_dollars"]
+    wellesley_rate = wellesley_year["residential_rate_per_thousand"]
+    wellesley_computed_bill = wellesley_value * wellesley_rate / 1000
+    wellesley_computed_bill, wellesley_year["average_single_family_bill_dollars"]
+    return
+
+
+@app.cell
+def _(requests):
+    def town_history(name):
+        """
+        Look up a town by name, then ask for its tax history by fiscal year.
+        Returns that history.
+        """
+        town_search = requests.get(
+            "https://oim.zhili.dev/ma/towns",
+            params={"name": name},
+            timeout=10,
+        ).json()
+        town_record = town_search["items"][0]
+        dor_code = town_record["dor_code"]
+
+        history_reply = requests.get(
+            f"https://oim.zhili.dev/ma/towns/{dor_code}/history",
+            timeout=10,
+        )
+        return history_reply.json()
+    town_history("Wellesley")
     return
 
 
@@ -527,6 +662,42 @@ def _(mo):
 
     **Going further.** Which town has the highest average single-family tax bill in the state, and which the lowest?
     """)
+    return
+
+
+@app.cell
+def _(get_page):
+    def get_all_towns():
+        """
+        Read every page of /ma/towns and return one list of every town.
+        """
+        first_page = get_page(1)
+        all_towns = first_page["items"]
+        pages = first_page["pagination"]["pages"]
+        for page_number in range(2, pages + 1):
+            next_page = get_page(page_number)
+            all_towns = all_towns + next_page["items"]
+        return all_towns
+    all_towns = get_all_towns()
+    len(all_towns), all_towns[0]["name"], all_towns[-1]["name"]
+    return (all_towns,)
+
+
+@app.cell
+def _(all_towns):
+    highest_bill_town = None
+    highest_bill = 0
+    lowest_bill_town = None
+    lowest_bill = None
+    for town in all_towns:
+        bill = town["average_single_family_bill_dollars"]
+        if bill > highest_bill:
+            highest_bill_town = town["name"]
+            highest_bill = bill
+        if lowest_bill is None or bill < lowest_bill:
+            lowest_bill_town = town["name"]
+            lowest_bill = bill
+    highest_bill_town, highest_bill, lowest_bill_town, lowest_bill
     return
 
 
