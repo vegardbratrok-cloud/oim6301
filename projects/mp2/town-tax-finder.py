@@ -74,11 +74,131 @@ def _(mo):
     return
 
 
+@app.cell
+def _():
+    county = "Middlesex"
+    budget_dollars = 700000
+    tax_limit_dollars = 8000
+    fiscal_year = 2026
+    return budget_dollars, county, fiscal_year, tax_limit_dollars
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## 4. The Work
     """)
+    return
+
+
+@app.cell
+def _():
+    import requests
+
+    BASE_URL = "https://oim.zhili.dev"
+
+    def get_towns(county):
+        """Return every town in a county as a list of records."""
+        towns = []
+        page = 1
+        while True:
+            reply = requests.get(
+                f"{BASE_URL}/ma/towns",
+                params={"county": county, "page": page, "per_page": 100},
+            )
+            reply.raise_for_status()
+            data = reply.json()
+            for item in data["items"]:
+                towns.append(item)
+            if not data["pagination"]["has_next"]:
+                break
+            page = page + 1
+        return towns
+
+    return BASE_URL, get_towns, requests
+
+
+@app.cell
+def _(county, get_towns):
+    towns = get_towns(county)
+    print(f"Collected {len(towns)} towns in {county} County")
+    return (towns,)
+
+
+@app.cell
+def _(BASE_URL, requests):
+    def get_town_year(dor_code, fiscal_year):
+        """Return one town's figures for one fiscal year, or None if that year is missing."""
+        reply = requests.get(f"{BASE_URL}/ma/towns/{dor_code}/history")
+        reply.raise_for_status()
+        data = reply.json()
+        for year in data["years"]:
+            if year["fiscal_year"] == fiscal_year:
+                return {
+                    "dor_code": data["dor_code"],
+                    "name": data["name"],
+                    "fiscal_year": year["fiscal_year"],
+                    "home_value": year["average_single_family_value_dollars"],
+                    "tax_rate": year["residential_rate_per_thousand"],
+                    "avg_bill": year["average_single_family_bill_dollars"],
+                }
+        return None
+
+    return (get_town_year,)
+
+
+@app.cell
+def _(fiscal_year, get_town_year, towns):
+    records = []
+    missing = []
+    for _town in towns:
+        _figures = get_town_year(_town["dor_code"], fiscal_year)
+        if _figures is None:
+            missing.append(_town["name"])
+        else:
+            records.append(_figures)
+
+    print(f"Got {fiscal_year} figures for {len(records)} towns; missing for {len(missing)}: {missing}")
+    return (records,)
+
+
+@app.cell
+def _(county, fiscal_year, mo, records):
+    import json
+
+    data_dir = mo.notebook_dir() / "data"
+    data_dir.mkdir(exist_ok=True)
+    data_file = data_dir / f"{county.lower()}_{fiscal_year}.json"
+
+    with open(data_file, "w") as _f:
+        json.dump(records, _f, indent=2)
+
+    print(f"Saved {len(records)} records to {data_file}")
+    return
+
+
+@app.cell
+def _():
+    def bill_of(record):
+        return record["avg_bill"]
+
+    def filter_and_sort(records, budget, tax_limit):
+        """Return the towns that fit both limits, lowest bill first."""
+        passing = []
+        for record in records:
+            if record["home_value"] is None or record["avg_bill"] is None:
+                continue
+            if record["home_value"] <= budget and record["avg_bill"] <= tax_limit:
+                passing.append(record)
+        return sorted(passing, key=bill_of)
+
+    return (filter_and_sort,)
+
+
+@app.cell
+def _(budget_dollars, filter_and_sort, records, tax_limit_dollars):
+    shortlist = filter_and_sort(records, budget_dollars, tax_limit_dollars)
+    print(f"{len(shortlist)} of {len(records)} towns pass both limits")
     return
 
 

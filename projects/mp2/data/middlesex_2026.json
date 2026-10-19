@@ -1,0 +1,434 @@
+[
+  {
+    "dor_code": "002",
+    "name": "Acton",
+    "fiscal_year": 2026,
+    "home_value": 937779,
+    "tax_rate": 16.23,
+    "avg_bill": 15220
+  },
+  {
+    "dor_code": "010",
+    "name": "Arlington",
+    "fiscal_year": 2026,
+    "home_value": 1119722,
+    "tax_rate": 10.67,
+    "avg_bill": 11947
+  },
+  {
+    "dor_code": "012",
+    "name": "Ashby",
+    "fiscal_year": 2026,
+    "home_value": 394983,
+    "tax_rate": 15.76,
+    "avg_bill": 6225
+  },
+  {
+    "dor_code": "014",
+    "name": "Ashland",
+    "fiscal_year": 2026,
+    "home_value": 737364,
+    "tax_rate": 12.71,
+    "avg_bill": 9372
+  },
+  {
+    "dor_code": "019",
+    "name": "Ayer",
+    "fiscal_year": 2026,
+    "home_value": 571644,
+    "tax_rate": 11.59,
+    "avg_bill": 6625
+  },
+  {
+    "dor_code": "023",
+    "name": "Bedford",
+    "fiscal_year": 2026,
+    "home_value": 1039668,
+    "tax_rate": 12.49,
+    "avg_bill": 12985
+  },
+  {
+    "dor_code": "026",
+    "name": "Belmont",
+    "fiscal_year": 2026,
+    "home_value": 1701064,
+    "tax_rate": 11.51,
+    "avg_bill": 19579
+  },
+  {
+    "dor_code": "031",
+    "name": "Billerica",
+    "fiscal_year": 2026,
+    "home_value": 644586,
+    "tax_rate": 11.61,
+    "avg_bill": 7484
+  },
+  {
+    "dor_code": "037",
+    "name": "Boxborough",
+    "fiscal_year": 2026,
+    "home_value": 933829,
+    "tax_rate": 15.39,
+    "avg_bill": 14372
+  },
+  {
+    "dor_code": "048",
+    "name": "Burlington",
+    "fiscal_year": 2026,
+    "home_value": 820280,
+    "tax_rate": 8.69,
+    "avg_bill": 7128
+  },
+  {
+    "dor_code": "049",
+    "name": "Cambridge",
+    "fiscal_year": 2026,
+    "home_value": 2050959,
+    "tax_rate": 6.67,
+    "avg_bill": 13680
+  },
+  {
+    "dor_code": "051",
+    "name": "Carlisle",
+    "fiscal_year": 2026,
+    "home_value": 1355604,
+    "tax_rate": 12.82,
+    "avg_bill": 17379
+  },
+  {
+    "dor_code": "056",
+    "name": "Chelmsford",
+    "fiscal_year": 2026,
+    "home_value": 694695,
+    "tax_rate": 13.27,
+    "avg_bill": 9219
+  },
+  {
+    "dor_code": "067",
+    "name": "Concord",
+    "fiscal_year": 2026,
+    "home_value": 1572184,
+    "tax_rate": 13.05,
+    "avg_bill": 20517
+  },
+  {
+    "dor_code": "079",
+    "name": "Dracut",
+    "fiscal_year": 2026,
+    "home_value": 593296,
+    "tax_rate": 9.67,
+    "avg_bill": 5737
+  },
+  {
+    "dor_code": "081",
+    "name": "Dunstable",
+    "fiscal_year": 2026,
+    "home_value": 745497,
+    "tax_rate": 13.39,
+    "avg_bill": 9982
+  },
+  {
+    "dor_code": "093",
+    "name": "Everett",
+    "fiscal_year": 2026,
+    "home_value": 466504,
+    "tax_rate": 12.62,
+    "avg_bill": 5887
+  },
+  {
+    "dor_code": "100",
+    "name": "Framingham",
+    "fiscal_year": 2026,
+    "home_value": 681423,
+    "tax_rate": 11.83,
+    "avg_bill": 8061
+  },
+  {
+    "dor_code": "115",
+    "name": "Groton",
+    "fiscal_year": 2026,
+    "home_value": 761388,
+    "tax_rate": 14.78,
+    "avg_bill": 11253
+  },
+  {
+    "dor_code": "136",
+    "name": "Holliston",
+    "fiscal_year": 2026,
+    "home_value": 739382,
+    "tax_rate": 14.29,
+    "avg_bill": 10566
+  },
+  {
+    "dor_code": "139",
+    "name": "Hopkinton",
+    "fiscal_year": 2026,
+    "home_value": 994431,
+    "tax_rate": 14.1,
+    "avg_bill": 14021
+  },
+  {
+    "dor_code": "141",
+    "name": "Hudson",
+    "fiscal_year": 2026,
+    "home_value": 609924,
+    "tax_rate": 14.14,
+    "avg_bill": 8624
+  },
+  {
+    "dor_code": "155",
+    "name": "Lexington",
+    "fiscal_year": 2026,
+    "home_value": 1656734,
+    "tax_rate": 12.31,
+    "avg_bill": 20394
+  },
+  {
+    "dor_code": "157",
+    "name": "Lincoln",
+    "fiscal_year": 2026,
+    "home_value": 1684669,
+    "tax_rate": 12.31,
+    "avg_bill": 20738
+  },
+  {
+    "dor_code": "158",
+    "name": "Littleton",
+    "fiscal_year": 2026,
+    "home_value": 770356,
+    "tax_rate": 14.02,
+    "avg_bill": 10800
+  },
+  {
+    "dor_code": "160",
+    "name": "Lowell",
+    "fiscal_year": 2026,
+    "home_value": 514854,
+    "tax_rate": 11.35,
+    "avg_bill": 5844
+  },
+  {
+    "dor_code": "165",
+    "name": "Malden",
+    "fiscal_year": 2026,
+    "home_value": 434420,
+    "tax_rate": 11.4,
+    "avg_bill": 4952
+  },
+  {
+    "dor_code": "170",
+    "name": "Marlborough",
+    "fiscal_year": 2026,
+    "home_value": 611100,
+    "tax_rate": 10.54,
+    "avg_bill": 6441
+  },
+  {
+    "dor_code": "174",
+    "name": "Maynard",
+    "fiscal_year": 2026,
+    "home_value": 606545,
+    "tax_rate": 16.62,
+    "avg_bill": 10081
+  },
+  {
+    "dor_code": "176",
+    "name": "Medford",
+    "fiscal_year": 2026,
+    "home_value": 860609,
+    "tax_rate": 8.63,
+    "avg_bill": 7427
+  },
+  {
+    "dor_code": "178",
+    "name": "Melrose",
+    "fiscal_year": 2026,
+    "home_value": 853264,
+    "tax_rate": 11.47,
+    "avg_bill": 9787
+  },
+  {
+    "dor_code": "198",
+    "name": "Natick",
+    "fiscal_year": 2026,
+    "home_value": 937795,
+    "tax_rate": 12.17,
+    "avg_bill": 11413
+  },
+  {
+    "dor_code": "207",
+    "name": "Newton",
+    "fiscal_year": 2026,
+    "home_value": 1762337,
+    "tax_rate": 9.69,
+    "avg_bill": 17077
+  },
+  {
+    "dor_code": "213",
+    "name": "North Reading",
+    "fiscal_year": 2026,
+    "home_value": 882903,
+    "tax_rate": 13.02,
+    "avg_bill": 11495
+  },
+  {
+    "dor_code": "232",
+    "name": "Pepperell",
+    "fiscal_year": 2026,
+    "home_value": 549948,
+    "tax_rate": 13.78,
+    "avg_bill": 7578
+  },
+  {
+    "dor_code": "246",
+    "name": "Reading",
+    "fiscal_year": 2026,
+    "home_value": 939783,
+    "tax_rate": 10.96,
+    "avg_bill": 10300
+  },
+  {
+    "dor_code": "269",
+    "name": "Sherborn",
+    "fiscal_year": 2026,
+    "home_value": 1278285,
+    "tax_rate": 15.66,
+    "avg_bill": 20018
+  },
+  {
+    "dor_code": "270",
+    "name": "Shirley",
+    "fiscal_year": 2026,
+    "home_value": 523807,
+    "tax_rate": 12.39,
+    "avg_bill": 6490
+  },
+  {
+    "dor_code": "274",
+    "name": "Somerville",
+    "fiscal_year": 2026,
+    "home_value": 853939,
+    "tax_rate": 10.98,
+    "avg_bill": 9376
+  },
+  {
+    "dor_code": "284",
+    "name": "Stoneham",
+    "fiscal_year": 2026,
+    "home_value": 801126,
+    "tax_rate": 10.06,
+    "avg_bill": 8059
+  },
+  {
+    "dor_code": "286",
+    "name": "Stow",
+    "fiscal_year": 2026,
+    "home_value": 789754,
+    "tax_rate": 17.87,
+    "avg_bill": 14113
+  },
+  {
+    "dor_code": "288",
+    "name": "Sudbury",
+    "fiscal_year": 2026,
+    "home_value": 1165018,
+    "tax_rate": 14.27,
+    "avg_bill": 16625
+  },
+  {
+    "dor_code": "295",
+    "name": "Tewksbury",
+    "fiscal_year": 2026,
+    "home_value": 685343,
+    "tax_rate": 12.56,
+    "avg_bill": 8608
+  },
+  {
+    "dor_code": "299",
+    "name": "Townsend",
+    "fiscal_year": 2026,
+    "home_value": 469723,
+    "tax_rate": 13.75,
+    "avg_bill": 6459
+  },
+  {
+    "dor_code": "301",
+    "name": "Tyngsborough",
+    "fiscal_year": 2026,
+    "home_value": 642029,
+    "tax_rate": 12.99,
+    "avg_bill": 8340
+  },
+  {
+    "dor_code": "305",
+    "name": "Wakefield",
+    "fiscal_year": 2026,
+    "home_value": 820088,
+    "tax_rate": 11.74,
+    "avg_bill": 9628
+  },
+  {
+    "dor_code": "308",
+    "name": "Waltham",
+    "fiscal_year": 2026,
+    "home_value": 502825,
+    "tax_rate": 10.32,
+    "avg_bill": 5189
+  },
+  {
+    "dor_code": "314",
+    "name": "Watertown",
+    "fiscal_year": 2026,
+    "home_value": 663449,
+    "tax_rate": 12.2,
+    "avg_bill": 8094
+  },
+  {
+    "dor_code": "315",
+    "name": "Wayland",
+    "fiscal_year": 2026,
+    "home_value": 1231217,
+    "tax_rate": 14.83,
+    "avg_bill": 18259
+  },
+  {
+    "dor_code": "330",
+    "name": "Westford",
+    "fiscal_year": 2026,
+    "home_value": 852122,
+    "tax_rate": 13.11,
+    "avg_bill": 11171
+  },
+  {
+    "dor_code": "333",
+    "name": "Weston",
+    "fiscal_year": 2026,
+    "home_value": 2418446,
+    "tax_rate": 10.88,
+    "avg_bill": 26313
+  },
+  {
+    "dor_code": "342",
+    "name": "Wilmington",
+    "fiscal_year": 2026,
+    "home_value": 759032,
+    "tax_rate": 11.41,
+    "avg_bill": 8661
+  },
+  {
+    "dor_code": "344",
+    "name": "Winchester",
+    "fiscal_year": 2026,
+    "home_value": 1649138,
+    "tax_rate": 11.08,
+    "avg_bill": 18272
+  },
+  {
+    "dor_code": "347",
+    "name": "Woburn",
+    "fiscal_year": 2026,
+    "home_value": 738200,
+    "tax_rate": 9.15,
+    "avg_bill": 6755
+  }
+]
