@@ -316,6 +316,9 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     Prediction: I will lower budget_dollars from $700,000 to $600,000. Looking at my current table, Billerica and Marlborough have average home values above $600,000, so I expect them to drop out. That leaves 10 towns. The cheapest bill should still be Malden at $4,952, so the answer sentence should name the same town but say 10 towns instead of 12.
+
+
+    Update: I made the change, ran it, and it did exactly that.
     """)
     return
 
@@ -328,10 +331,100 @@ def _(mo):
     return
 
 
+@app.cell
+def _(shortlist):
+    def rate_of(record):
+        return record["tax_rate"]
+
+    by_rate = sorted(shortlist, key=rate_of)
+
+    print(f"{'Rate rank':<10} {'Town':<14} {'Tax rate':>8} {'Avg home value':>15} {'Avg bill':>9} {'Bill rank':>10}")
+    print("-" * 71)
+    for _i, _town in enumerate(by_rate):
+        _bill_rank = shortlist.index(_town) + 1
+        _value = "$" + format(_town["home_value"], ",")
+        _bill = "$" + format(_town["avg_bill"], ",")
+        print(f"{_i + 1:<10} {_town['name']:<14} {_town['tax_rate']:>8.2f} {_value:>15} {_bill:>9} {_bill_rank:>10}")
+    return
+
+
+@app.cell
+def _(BASE_URL, requests):
+    def get_town_history(dor_code, first_year, last_year):
+        """Return one town's average bill for each year from first_year to last_year, skipping years with no bill."""
+        reply = requests.get(f"{BASE_URL}/ma/towns/{dor_code}/history")
+        reply.raise_for_status()
+        data = reply.json()
+        rows = []
+        for year in data["years"]:
+            in_range = first_year <= year["fiscal_year"] <= last_year
+            has_bill = year["average_single_family_bill_dollars"] is not None
+            if in_range and has_bill:
+                rows.append({
+                    "name": data["name"],
+                    "fiscal_year": year["fiscal_year"],
+                    "avg_bill": year["average_single_family_bill_dollars"],
+                })
+        return rows
+
+    return (get_town_history,)
+
+
+@app.cell
+def _(fiscal_year, get_town_history, shortlist):
+    trend_rows = []
+    print(f"{'Town':<14} {'From':>12} {'To':>12} {'Change':>8}")
+    print("-" * 49)
+    for _town in shortlist[:3]:
+        _rows = get_town_history(_town["dor_code"], fiscal_year - 9, fiscal_year)
+        for _row in _rows:
+            trend_rows.append(_row)
+        _first = _rows[0]
+        _last = _rows[-1]
+        _change = (_last["avg_bill"] - _first["avg_bill"]) / _first["avg_bill"] * 100
+        _from = f"{_first['fiscal_year']}: ${_first['avg_bill']:,}"
+        _to = f"{_last['fiscal_year']}: ${_last['avg_bill']:,}"
+        print(f"{_town['name']:<14} {_from:>12} {_to:>12} {_change:>7.1f}%")
+    return (trend_rows,)
+
+
+@app.cell
+def _(trend_rows):
+    import altair as alt
+
+    alt.Chart(alt.Data(values=trend_rows)).mark_line(point=True).encode(
+        x=alt.X("fiscal_year:O", title="Fiscal year"),
+        y=alt.Y("avg_bill:Q", title="Average single-family tax bill ($)"),
+        color=alt.Color("name:N", title="Town"),
+    ).properties(title="Average tax bill over 10 years, three cheapest towns", width=600)
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    What I tried (both are in this section):
+
+    1.Ranking by tax rate. Sorted by tax rate, the order changes: Dracut has the lowest rate but only the 3rd-lowest bill, while Malden has the lowest bill but ranks 5th by rate. The bill depends on both the rate and the home’s value, so for the couple the bill matters more than the rate.
+
+    2.Ten-year trend. I charted the average bill for the three cheapest towns. Dracut has data for all 10 years and its bill rose 29.2% since 2017. Malden and Waltham only have bills from 2022, so their increases (15.8% and 12.0%) cover five years and can’t be compared directly with Dracut’s. The chart also shows the order changing: Malden’s bill was higher than Waltham’s in 2024 and 2025, and it only became the cheapest in 2026 because it stayed flat that year. So today’s cheapest town is not always the cheapest.
+    """)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## 10. Time Spent
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    3 hours and 5 minutes!
     """)
     return
 
