@@ -199,7 +199,7 @@ def _():
 def _(budget_dollars, filter_and_sort, records, tax_limit_dollars):
     shortlist = filter_and_sort(records, budget_dollars, tax_limit_dollars)
     print(f"{len(shortlist)} of {len(records)} towns pass both limits")
-    return
+    return (shortlist,)
 
 
 @app.cell(hide_code=True)
@@ -210,11 +210,71 @@ def _(mo):
     return
 
 
+@app.cell
+def _(shortlist):
+    print(f"{'Town':<20} {'Avg home value':>14} {'Tax rate':>10} {'Avg bill':>10}")
+    print("-" * 57)
+    for _town in shortlist:
+        _value = "$" + format(_town["home_value"], ",")
+        _bill = "$" + format(_town["avg_bill"], ",")
+        print(f"{_town['name']:<20} {_value:>14} {_town['tax_rate']:>10.2f} {_bill:>10}")
+    return
+
+
+@app.cell
+def _(
+    budget_dollars,
+    county,
+    fiscal_year,
+    records,
+    shortlist,
+    tax_limit_dollars,
+):
+    if len(shortlist) > 0:
+        _best = shortlist[0]
+        print(
+            f"Of the {len(records)} towns in {county} County, {len(shortlist)} have an average "
+            f"single-family home at or under ${budget_dollars:,} and an average tax bill at or under "
+            f"${tax_limit_dollars:,} in fiscal {fiscal_year}. The lowest bill is in {_best['name']}: "
+            f"${_best['avg_bill']:,} a year on an average home of ${_best['home_value']:,}."
+        )
+    else:
+        print(f"No town in {county} County fits both a ${budget_dollars:,} budget and a ${tax_limit_dollars:,} tax limit in fiscal {fiscal_year}.")
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## 6. How I Know These Numbers Are Right
     """)
+    return
+
+
+@app.cell
+def _(BASE_URL, county, requests, towns):
+    _reply = requests.get(f"{BASE_URL}/ma/towns", params={"county": county})
+    _reply.raise_for_status()
+    api_total = _reply.json()["pagination"]["total"]
+
+    print(f"Towns the API reports: {api_total}")
+    print(f"Towns I collected:     {len(towns)}")
+    print(f"Match: {api_total == len(towns)}")
+    return
+
+
+@app.cell
+def _(shortlist):
+    print(f"{'Town':<20} {'API bill':>10} {'Calculated':>12} {'Difference':>11}")
+    print("-" * 56)
+    largest_gap = 0
+    for _town in shortlist:
+        _calculated = _town["home_value"] * _town["tax_rate"] / 1000
+        _gap = abs(_town["avg_bill"] - _calculated)
+        if _gap > largest_gap:
+            largest_gap = _gap
+        print(f"{_town['name']:<20} {_town['avg_bill']:>10,} {_calculated:>12,.0f} {_gap:>11,.2f}")
+    print(f"Largest difference: ${largest_gap:,.2f}")
     return
 
 
@@ -229,7 +289,33 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    The code for fetching, filtering and printing worked on the first run, so I did not change it. To verify it, I checked in section 6 that the number of towns I collected (54) equals the total the API reports (54), and that every bill in my table matches the home value × tax rate ÷ 1,000 within about a dollar.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## 8. Reading It Back
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The first function, get_towns(county), takes a county name, like Middlesex, and returns a list of all the towns in that county, including their names and DOR codes. I had to ask about the line if not data["pagination"]["has_next"]: break. I learned that this checks whether there are more pages of towns to collect. If there are no more pages, the function stops looking and returns the list.
+
+    The second function, get_town_year(dor_code, fiscal_year), takes a town’s DOR code and a year, and returns that town’s home value, tax rate and average tax bill for that year. I had to ask about the line return None. I learned that this happens when the function cannot find information for the year I requested. Instead of giving an error, it returns None, so I can keep track of which towns are missing information.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Prediction: I will lower budget_dollars from $700,000 to $600,000. Looking at my current table, Billerica and Marlborough have average home values above $600,000, so I expect them to drop out. That leaves 10 towns. The cheapest bill should still be Malden at $4,952, so the answer sentence should name the same town but say 10 towns instead of 12.
     """)
     return
 
