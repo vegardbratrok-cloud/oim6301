@@ -211,6 +211,59 @@ def _(towns_from_file):
                 county_counts[county] = 1
 
     county_counts
+    return (county_counts,)
+
+
+@app.cell
+def _(county_counts):
+    most_county = None
+    most_count = 0
+    for _county in county_counts:
+        if county_counts[_county] > most_count:
+            most_count = county_counts[_county]
+            most_county = _county
+
+    most_county, most_count
+    return
+
+
+@app.cell
+def _(county_counts):
+    total_million_dollar_towns = 0
+    for _county in county_counts:
+        total_million_dollar_towns += county_counts[_county]
+
+    total_million_dollar_towns
+    return
+
+
+@app.cell
+def _(towns_from_file):
+    smallest_town = towns_from_file[0]
+    largest_town = towns_from_file[0]
+    for _town in towns_from_file:
+        if int(_town["population"]) < int(smallest_town["population"]):
+            smallest_town = _town
+        if int(_town["population"]) > int(largest_town["population"]):
+            largest_town = _town
+
+    smallest_town["name"], int(smallest_town["population"]), largest_town["name"], int(largest_town["population"])
+    return
+
+
+@app.cell
+def _(ma_counties, towns_from_file):
+    most_expensive_by_county = {}
+    for _county in ma_counties:
+        county_name = _county["name"]
+        best_town = None
+        for _town in towns_from_file:
+            if _town["county"] == county_name:
+                if best_town is None or int(_town["average_single_family_value_dollars"]) > int(best_town["average_single_family_value_dollars"]):
+                    best_town = _town
+        most_expensive_by_county[county_name] = best_town["name"]
+
+    most_expensive_by_county
     return
 
 
@@ -302,7 +355,7 @@ def _(pl, town_table):
         town_table.group_by("county")
         .agg(
             pl.len().alias("towns"),
-            (pl.col("average_single_family_value_dollars") >= 1_000_000)
+            (pl.col("average_single_family_value_dollars") >= 2_000_000)
             .sum()
             .alias("million_dollar_towns"),
         )
@@ -334,6 +387,45 @@ def _(mo):
     return
 
 
+@app.cell
+def _(pl, town_table):
+    town_table_county_counts = town_table.group_by("county").agg(pl.len().alias("towns"))
+    town_table_county_counts
+    return
+
+
+@app.cell
+def _(ma_counties, pl):
+    server_county_counts = pl.DataFrame(ma_counties)
+    server_county_counts
+    return
+
+
+@app.cell
+def _(pl, town_table):
+    town_table.filter(pl.col("population") > 50_000).sort("average_single_family_bill_dollars", descending=True).head(5)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Among towns with more than 10,000 people, which county has the highest average income per capita?
+    """)
+    return
+
+
+@app.cell
+def _(pl, town_table):
+    (
+        town_table.filter(pl.col("population") > 10_000)
+        .group_by("county")
+        .agg(pl.col("income_per_capita_dollars").mean().alias("average_income_per_capita"))
+        .sort("average_income_per_capita", descending=True)
+    )
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -352,7 +444,7 @@ def _(mo, town_table):
         f"""
         SELECT county, COUNT(*) AS towns
         FROM town_table
-        WHERE average_single_family_value_dollars >= 1000000
+        WHERE average_single_family_value_dollars >= 2000000
         GROUP BY county
         ORDER BY towns DESC
         """
@@ -377,6 +469,34 @@ def _(mo):
 
     **Going further.** Write a SQL query of your own on `town_table`, and check its answer in polars.
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    All of the counties' counts can go down, although they do not have to if all the towns in the county happens to exceed the new bar. However, it's impossible that any of the counties' counts goes up, since raising the bar can only disqualify towns, not qualify new ones.
+    """)
+    return
+
+
+@app.cell
+def _(mo, town_table):
+    high_income_towns = mo.sql(
+        f"""
+        SELECT name, county, population, income_per_capita_dollars
+        FROM town_table
+        WHERE population > 20000
+        ORDER BY income_per_capita_dollars DESC
+        LIMIT 5
+        """
+    )
+    return
+
+
+@app.cell
+def _(pl, town_table):
+    town_table.filter(pl.col("population") > 20_000).sort("income_per_capita_dollars", descending=True).head(5)
     return
 
 
@@ -429,6 +549,47 @@ def _(mo):
     *Check yourself: somebody who has not seen this notebook can say what each axis measures.*
 
     **Going further.** Color the bars or dots by a column with `color=`, and explain what the colors add.
+    """)
+    return
+
+
+@app.cell
+def _(alt, mo, town_table):
+    income_vs_bill_chart = mo.ui.altair_chart(
+        alt.Chart(town_table)
+        .mark_circle(opacity=0.6)
+        .encode(
+            x=alt.X("income_per_capita_dollars", title="Income per capita (dollars)"),
+            y=alt.Y("average_single_family_bill_dollars", title="Average single-family tax bill (dollars)"),
+            tooltip=["name", "county", "income_per_capita_dollars", "average_single_family_bill_dollars"],
+        )
+        .properties(title="Towns with higher income per capita tend to pay higher property tax bills")
+    )
+    income_vs_bill_chart
+    return
+
+
+@app.cell
+def _(alt, mo, town_table):
+    income_vs_bill_by_county_chart = mo.ui.altair_chart(
+        alt.Chart(town_table)
+        .mark_circle(opacity=0.6)
+        .encode(
+            x=alt.X("income_per_capita_dollars", title="Income per capita (dollars)"),
+            y=alt.Y("average_single_family_bill_dollars", title="Average single-family tax bill (dollars)"),
+            color=alt.Color("county", title="County"),
+            tooltip=["name", "county", "income_per_capita_dollars", "average_single_family_bill_dollars"],
+        )
+        .properties(title="The same towns, colored by county")
+    )
+    income_vs_bill_by_county_chart
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Coloring by county shows that towns cluster by their county's color rather than scattering randomly: towns in the same county tend to sit near each other on the chart. This suggests income per capita and property tax bills vary more by region than town to town at random, something the first chart alone could not show.
     """)
     return
 

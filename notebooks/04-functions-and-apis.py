@@ -770,12 +770,38 @@ def _(mo):
 
 @app.cell
 def _(requests):
+    town_lookup = requests.get(
+        "https://oim.zhili.dev/ma/towns",
+        params={"name": "Wellesley"},
+        timeout=10,
+    ).json()
+    town_record = town_lookup["items"][0]
+    town_name = town_record["name"]
+    town_bill = town_record["average_single_family_bill_dollars"]
+    town_name, town_bill
+    return town_bill, town_name
+
+
+@app.cell
+def _(requests, town_bill, town_name):
     board_reply = requests.post(
         "https://oim.zhili.dev/message",
-        json={"message": f"Hi from Vegard"},
+        headers={"x-token": "vegardbratrok-cloud"},
+        json={"message": f"{town_name}: ${town_bill:,}"},
         timeout=10,
     )
     board_reply.status_code, board_reply.json()
+    return
+
+
+@app.cell
+def _(requests, town_bill, town_name):
+    board_reply_no_header = requests.post(
+        "https://oim.zhili.dev/message",
+        json={"message": f"{town_name}: ${town_bill:,}"},
+        timeout=10,
+    )
+    board_reply_no_header.status_code, board_reply_no_header.json()
     return
 
 
