@@ -510,6 +510,24 @@ def _(mo):
     return
 
 
+@app.cell
+def _(requests):
+    api_spec = requests.get("https://oim.zhili.dev/openapi.json", timeout=10).json()
+    api_spec["paths"]["/ma/towns"]["get"]["parameters"]
+    return
+
+
+@app.cell
+def _(requests):
+    norfolk_top_income = requests.get(
+        "https://oim.zhili.dev/ma/towns",
+        params={"county": "Norfolk", "sort": "income", "order": "desc", "per_page": 5},
+        timeout=10,
+    ).json()
+    norfolk_top_income["items"]
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -754,11 +772,18 @@ def _(mo):
 def _(requests):
     board_reply = requests.post(
         "https://oim.zhili.dev/message",
-        headers={"x-token": "vegardbratrok-cloud"},
         json={"message": f"Hi from Vegard"},
         timeout=10,
     )
     board_reply.status_code, board_reply.json()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Without the header, the server answered 401 with `{"detail": "Missing x-token header"}`, instead of the 201 it gave before. It needs to know who sent a message so it knows whose line on the board to write: the header is what tells it that, and without it the server has no name to attach the message to, so it refuses the request instead of guessing.
+    """)
     return
 
 
