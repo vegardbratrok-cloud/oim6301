@@ -174,6 +174,25 @@ def _(duckdb, mo):
     return (database,)
 
 
+@app.cell
+def _(database, duckdb):
+    with duckdb.connect (database) as _con:
+        _con.execute("""
+        CREATE TABLE town_bills(
+        name VARCHAR NOT NULL REFERENCES towns(name),
+        fiscal_year INTEGER,
+        average_single_family_bill_dollars INTEGER,
+        PRIMARY KEY (name, fiscal_year))
+        """)
+
+        _con.execute("""
+    INSERT INTO town_bills
+    VALUES ('Wellesley', 1988, 3129),
+    ('Wellesley', 1989, 3228)
+    """)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -254,6 +273,42 @@ def _(mo):
     return
 
 
+@app.cell
+def _(database, duckdb):
+    try:
+        with duckdb.connect(database) as _con:
+            _con.execute("INSERT INTO towns VALUES ('Wellesley', 'Norfolk', 100, 50000, 6000)")
+        mistake_1 = "accepted"
+    except duckdb.ConstraintException as _error:
+        mistake_1 = str(_error).splitlines()[0]
+    mistake_1
+    return
+
+
+@app.cell
+def _(database, duckdb):
+    try:
+        with duckdb.connect(database) as _con:
+            _con.execute("INSERT INTO towns VALUES ('Testville', 'Norfolk', 0, 50000, 6000)")
+        mistake_2 = "accepted"
+    except duckdb.ConstraintException as _error:
+        mistake_2 = str(_error).splitlines()[0]
+    mistake_2
+    return
+
+
+@app.cell
+def _(database, duckdb):
+    try:
+        with duckdb.connect(database) as _con:
+            _con.execute("INSERT INTO towns VALUES ('Nowhereville', 'Atlantis', 100, 50000, 6000)")
+        mistake_3 = "accepted"
+    except duckdb.ConstraintException as _error:
+        mistake_3 = str(_error).splitlines()[0]
+    mistake_3
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -286,6 +341,18 @@ def _(mo):
     *Check yourself: Brookline, Newton, Cambridge, Somerville, Quincy.*
 
     **Going further.** Ask the same question of `counties` and `towns` together: which county is each of those five in, and what share of its county's people does each hold? That needs both tables at once, which the topic slides call a join.
+    """)
+    return
+
+
+@app.cell
+def _(ask):
+    ask("""
+        SELECT name, population, average_single_family_bill_dollars
+        FROM towns
+        WHERE population > 50000
+        ORDER BY average_single_family_bill_dollars DESC
+        LIMIT 5
     """)
     return
 
