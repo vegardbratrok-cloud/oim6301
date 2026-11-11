@@ -15,7 +15,7 @@
 
 import marimo
 
-__generated_with = "0.25.1"
+__generated_with = "0.24.2"
 app = marimo.App(width="medium", sql_output="polars")
 
 
@@ -231,11 +231,11 @@ def _(mo):
 @app.cell
 def _(ask, towns_database):
     ask(towns_database, """
-        SELECT c.name
+        SELECT c.name, t.name, t.average_single_family_bill_dollars
         FROM counties AS c
         LEFT JOIN towns AS t
             ON t.county = c.name AND t.average_single_family_bill_dollars > 15000
-        WHERE t.name IS NULL
+        WHERE t.name IS NOT NULL
         ORDER BY c.name
     """)
     return
@@ -293,7 +293,7 @@ def _(ask, northwind_database):
         SELECT
             (SELECT count(*) FROM orders) AS orders,
             (SELECT count(*) FROM order_details) AS order_lines,
-            (SELECT count(*)
+            (SELECT count(o.OrderID)
              FROM orders AS o
              JOIN order_details AS d ON d.OrderID = o.OrderID) AS joined
     """)
@@ -443,7 +443,7 @@ def _(mo, os, pl):
             return pl.DataFrame(_cursor.fetchall(), schema=_columns, orient="row")
 
     ask_server("SELECT TOP 5 SalesOrderID, OrderDate, Freight FROM Sales.SalesOrderHeader ORDER BY SalesOrderID")
-    return (ask_server,)
+    return
 
 
 @app.cell(hide_code=True)
@@ -567,6 +567,23 @@ def _(mo):
     - [ ] I can check a key for repeats before I join on it, and explain why a total grows after a join
     - [ ] I can join three tables and check the result against a total I know
     - [ ] I can connect to a database on a server and ask it the same questions in T-SQL
+    """)
+    return
+
+
+@app.cell
+def _(ask, northwind_database):
+    ask(northwind_database, """
+        SELECT
+            e.FirstName,
+            e.LastName,
+            sum(d.UnitPrice * d.Quantity * (1 - d.Discount)) AS total_revenue
+        FROM employees AS e
+        JOIN orders AS o ON o.EmployeeID = e.EmployeeID
+        JOIN order_details AS d ON d.OrderID = o.OrderID
+        WHERE o.OrderDate >= DATE '2023-10-28' - INTERVAL 90 DAY
+        GROUP BY e.FirstName, e.LastName
+        ORDER BY total_revenue DESC
     """)
     return
 
