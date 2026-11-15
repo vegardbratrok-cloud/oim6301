@@ -177,7 +177,7 @@ def _(mo):
 
     Tasks created each month, read straight from `tasks.csv` with polars.
 
-    This pattern seems realistic for a startup, since new projects and busy periods could lead to more tasks in some months than others.
+    This looks realistic for a growing startup: tasks rise from a handful in November to a peak in May as the team hires and starts more projects, and October jumps again with planning work for the two new projects.
     """)
     return
 
