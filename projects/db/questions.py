@@ -9,8 +9,9 @@ def _():
     import marimo as mo
     import duckdb
     import polars as pl
+    import altair as alt
 
-    return duckdb, mo
+    return alt, duckdb, mo, pl
 
 
 @app.cell(hide_code=True)
@@ -480,13 +481,15 @@ def _(mo):
     mo.md(r"""
     ## 2. Working With the Agent
 
-    **TODO:** The agent’s first version of make_data.py left tasks unassigned
+    The agent’s first version of make_data.py left tasks unassigned
     if they were created before anyone joined the project, and those tasks were never completed.
     This did not break any written rules, but Q2 showed that 43 of the 74 overdue tasks were unassigned,
     which seemed unrealistic. I changed the script so tasks are only created after someone joins the
     project and rebuilt the data. Q2 then showed 33 overdue tasks, with only 2 unassigned.
     The two tasks with intentional rule violations changed to tasks 67 and 79, so I updated
     “The Data” in build.py. The assignments stayed the same, so my join prediction still holds.
+    These changes are in make_data.py, under the comment "nobody creates a
+    task before anybody works on the project".
     """)
     return
 
@@ -526,12 +529,12 @@ def _(ask):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    **Did it match?** TODO: Yes, the joins produced 59 rows, as I predicted. 
+    **Did it match?** Yes, the joins produced 59 rows, as I predicted. 
     Each report matched exactly one manager, so that join added no rows, and 
     every report works on at least one project, so the left join to assignments 
     neither lost nor added anybody: one row per assignment of someone with a manager.
 
-    **What one row of the final result means:** TODO: 
+    **What one row of the final result means:**
     One row represents one manager, how many people report directly to them,
     and those people’s combined weekly hours across all projects.
     """)
@@ -543,6 +546,88 @@ def _(mo):
     mo.md(r"""
     ## 4. Going Further
 
+    Four steps past the ten questions, all in this section: Q1 as a chart,
+    a dropdown that answers questions about any project without editing
+    code, what goes wrong if Q6 joins everything at once, and a check of
+    the half of the Q7 rule that Q7 leaves out.
+
+    **Q1 as a chart.** Each project's share of its budget spent, with a red
+    line at 100%. Eval Harness is the only bar past the line.
+    """)
+    return
+
+
+@app.cell
+def _(alt, pl, q1):
+    _bars = (
+        alt.Chart(q1)
+        .mark_bar()
+        .encode(
+            x=alt.X("pct_of_budget:Q", title="Share of budget spent (%)"),
+            y=alt.Y("project:N", sort="-x", title="Project"),
+            tooltip=["project", "budget", "spent", "pct_of_budget"],
+        )
+    )
+    _full_budget = (
+        alt.Chart(pl.DataFrame({"pct": [100]}))
+        .mark_rule(color="red")
+        .encode(x="pct:Q")
+    )
+    (_bars + _full_budget).properties(
+        title="Q1: share of budget spent, as of 2026-10-31", width=500
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    **Ask about any project without editing code.** Pick a project, and the
+    table below shows its status, budget, spending, tasks, overdue tasks and
+    team.
+    """)
+    return
+
+
+@app.cell
+def _(ask, mo):
+    project_picker = mo.ui.dropdown(
+        options=ask("SELECT name FROM projects ORDER BY name")["name"].to_list(),
+        value="Eval Harness",
+        label="Project",
+    )
+    project_picker
+    return (project_picker,)
+
+
+@app.cell
+def _(as_of, ask, project_picker):
+    _name = project_picker.value.replace("'", "''")
+    ask(f"""
+        SELECT p.name AS project,
+               p.status,
+               p.budget,
+               (SELECT coalesce(sum(amount), 0) FROM expenses AS e
+                WHERE e.project_id = p.project_id) AS spent,
+               (SELECT count(*) FROM tasks AS t
+                WHERE t.project_id = p.project_id) AS tasks,
+               (SELECT count(*) FROM tasks AS t
+                WHERE t.project_id = p.project_id
+                  AND t.completed_date IS NULL
+                  AND t.due_date < DATE '{as_of}') AS overdue_tasks,
+               (SELECT count(*) FROM assignments AS a
+                WHERE a.project_id = p.project_id) AS team_size,
+               (SELECT coalesce(sum(hours_per_week), 0) FROM assignments AS a
+                WHERE a.project_id = p.project_id) AS team_hours_per_week
+        FROM projects AS p
+        WHERE p.name = '{_name}'
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     **What happens if Q6 joins tasks and expenses in one go?** Joining
     projects to both tasks and expenses at once pairs every task of a
     project with every expense of the same project. The query below does
@@ -595,7 +680,7 @@ def _(mo):
     mo.md(r"""
     ## 5. Time Spent
 
-    TODO: About 3.5 hours.
+    About 3.5 hours.
     """)
     return
 
