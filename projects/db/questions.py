@@ -529,9 +529,9 @@ def _(ask):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    **Did it match?** Yes, the joins produced 59 rows, as I predicted. 
-    Each report matched exactly one manager, so that join added no rows, and 
-    every report works on at least one project, so the left join to assignments 
+    **Did it match?** Yes, the joins produced 59 rows, as I predicted.
+    Each report matched exactly one manager, so that join added no rows, and
+    every report works on at least one project, so the left join to assignments
     neither lost nor added anybody: one row per assignment of someone with a manager.
 
     **What one row of the final result means:**
@@ -560,7 +560,7 @@ def _(mo):
 @app.cell
 def _(alt, pl, q1):
     _bars = (
-        alt.Chart(q1)
+        alt.Chart(q1.with_columns(pl.col("budget", "spent", "pct_of_budget").cast(pl.Float64)))
         .mark_bar()
         .encode(
             x=alt.X("pct_of_budget:Q", title="Share of budget spent (%)"),
