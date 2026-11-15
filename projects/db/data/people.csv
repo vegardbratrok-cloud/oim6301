@@ -1,0 +1,26 @@
+person_id,first_name,last_name,work_email,title,start_date,manager_id
+1,Maya,Lindqvist,maya.lindqvist@babsonailabs.com,CEO & Co-founder,2025-11-01,
+2,Omar,Haddad,omar.haddad@babsonailabs.com,CTO & Co-founder,2025-11-01,
+3,Priya,Raman,priya.raman@babsonailabs.com,Head of Engineering,2025-12-01,1
+4,Lucas,Moreau,lucas.moreau@babsonailabs.com,Head of Product,2026-01-07,1
+5,Hannah,Okafor,hannah.okafor@babsonailabs.com,Engineering Manager,2026-01-13,2
+6,Daniel,Kim,daniel.kim@babsonailabs.com,Data Lead,2025-11-21,2
+7,Sofia,Alvarez,sofia.alvarez@babsonailabs.com,Data Analyst,2026-03-06,3
+8,Ethan,Brooks,ethan.brooks@babsonailabs.com,Data Engineer,2026-03-19,4
+9,Aisha,Bello,aisha.bello@babsonailabs.com,Data Analyst,2026-06-09,5
+10,Noah,Fischer,noah.fischer@babsonailabs.com,Data Engineer,2026-02-15,6
+11,Grace,Liu,grace.liu@babsonailabs.com,Data Engineer,2025-12-27,3
+12,Mateo,Rossi,mateo.rossi@babsonailabs.com,Data Engineer,2026-05-20,4
+13,Chloe,Nguyen,chloe.nguyen@babsonailabs.com,Solutions Engineer,2026-05-15,5
+14,Samuel,Adeyemi,samuel.adeyemi@babsonailabs.com,Software Engineer,2026-01-26,6
+15,Lena,Novak,lena.novak@babsonailabs.com,ML Engineer,2026-06-15,3
+16,Ryan,Walsh,ryan.walsh@babsonailabs.com,Product Designer,2026-07-07,4
+17,Zara,Hussain,zara.hussain@babsonailabs.com,Data Analyst,2026-03-12,5
+18,Felix,Berg,felix.berg@babsonailabs.com,Software Engineer,2026-07-14,6
+19,Emily,Carter,emily.carter@babsonailabs.com,Product Designer,2026-01-07,3
+20,Arjun,Mehta,arjun.mehta@babsonailabs.com,ML Engineer,2026-05-29,4
+21,Isabel,Santos,isabel.santos@babsonailabs.com,Software Engineer,2026-05-05,5
+22,Jonas,Larsen,jonas.larsen@babsonailabs.com,Software Engineer,2026-01-07,6
+23,Mia,Tanaka,mia.tanaka@babsonailabs.com,Software Engineer,2026-02-17,3
+24,Leo,Ivanov,leo.ivanov@babsonailabs.com,Software Engineer,2026-07-13,4
+25,Nora,Quinn,nora.quinn@babsonailabs.com,Solutions Engineer,2026-07-16,5

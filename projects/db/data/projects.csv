@@ -1,0 +1,15 @@
+project_id,name,client_name,category,budget,start_date,status
+1,Invoice Reader,Northside Plumbing,LLM app,50000,2025-11-10,done
+2,Menu Chat,Harbor Pizza Co.,LLM app,150000,2025-12-01,active
+3,Inventory Sync,Greenleaf Grocers,data pipeline,95000,2025-11-17,active
+4,Review Summarizer,Lumen Salon,LLM app,150000,2026-02-09,active
+5,Sales Data Lake,Atlas Hardware,data pipeline,75000,2025-12-08,done
+6,Booking Assistant,Cedar Dental,LLM app,190000,2026-04-06,active
+7,Shipment Tracker,Bayside Logistics,data pipeline,150000,2026-01-12,paused
+8,Support Copilot,Brightwave Fitness,LLM app,175000,2026-01-19,active
+9,Lead Scorer,Pine & Oak Realty,data pipeline,55000,2026-05-18,active
+10,Hiring Tracker,,internal tool,30000,2025-12-15,active
+11,GPU Cost Monitor,,internal tool,22500,2026-02-02,paused
+12,Eval Harness,,internal tool,15000,2026-03-02,active
+13,Contract Q&A,Merrow Law Group,LLM app,55000,2026-11-16,planned
+14,Onboarding Wiki,,internal tool,27500,2026-12-01,planned

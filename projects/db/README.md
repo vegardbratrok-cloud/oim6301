@@ -76,3 +76,4 @@ expenses: One row in expenses is one expense charged to exactly one project, ide
 **A rule checked with a query.** A task can only be assigned to someone who works on that project, and not before that person's start date. A CHECK constraint can't compare rows across tables, so I check this with a query instead (question 7).
 
 **A design choice.** I kept `client_name` as a column in `projects` instead of making a separate `clients` table. The scenario only gives a client's name, and internal projects have none, so a separate table would add complexity this project doesn't need.
+
