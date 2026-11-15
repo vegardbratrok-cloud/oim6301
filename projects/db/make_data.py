@@ -205,6 +205,9 @@ for project in projects:
             created = rand_date(date(2026, 10, 5), AS_OF)
         else:
             created = rand_date(project["start_date"], work_end[pid])
+        # nobody creates a task before anybody works on the project
+        first_join = min(a["joined_date"] for a in team[pid])
+        created = max(created, first_join)
         due = created + timedelta(days=random.randint(5, 40))
 
         # only someone already on the project can be assigned the task

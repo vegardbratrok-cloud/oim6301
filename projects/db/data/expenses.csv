@@ -1,181 +1,181 @@
 expense_id,project_id,expense_date,amount,category,note
-1,1,2025-11-12,972.26,software,API credits
-2,3,2025-11-25,391.16,software,dev tools
+1,3,2025-11-25,391.16,software,dev tools
+2,3,2025-11-25,132.76,travel,client visit
 3,5,2025-12-09,917.21,software,API credits
-4,5,2025-12-11,2346.53,data labeling,review labels
-5,5,2025-12-20,613.0,software,dev tools
+4,2,2025-12-11,438.01,software,API credits
+5,5,2025-12-11,2346.53,data labeling,review labels
 6,3,2025-12-22,2533.53,data labeling,review labels
-7,2,2025-12-29,4542.19,GPU cloud,inference hosting
-8,10,2025-12-30,740.44,software,vector database plan
+7,1,2025-12-22,5249.07,GPU cloud,fine-tuning run
+8,2,2025-12-29,4542.19,GPU cloud,inference hosting
 9,5,2026-01-03,982.71,software,vector database plan
 10,3,2026-01-06,1028.71,software,monitoring tool
-11,10,2026-01-07,429.78,software,monitoring tool
-12,1,2026-01-10,1504.95,data labeling,"label 1,000 examples"
-13,5,2026-01-13,878.42,software,dev tools
+11,5,2026-01-06,401.87,software,monitoring tool
+12,10,2026-01-07,429.78,software,monitoring tool
+13,1,2026-01-10,1504.95,data labeling,"label 1,000 examples"
 14,3,2026-01-14,692.91,data labeling,annotation vendor
 15,2,2026-01-16,1301.53,data labeling,"label 1,000 examples"
-16,5,2026-01-24,946.77,software,monitoring tool
-17,1,2026-01-26,869.08,software,monitoring tool
-18,5,2026-01-26,380.87,software,monitoring tool
-19,5,2026-01-29,533.82,software,monitoring tool
-20,2,2026-02-02,121.45,software,dev tools
-21,11,2026-02-05,339.28,software,dev tools
-22,1,2026-02-08,580.71,software,vector database plan
-23,3,2026-02-12,1144.01,travel,client visit
-24,5,2026-02-13,2351.17,data labeling,review labels
-25,10,2026-02-15,1169.75,software,dev tools
-26,2,2026-02-21,1034.76,GPU cloud,batch embeddings
-27,1,2026-02-21,301.62,travel,train to client
-28,7,2026-03-03,1188.66,GPU cloud,fine-tuning run
-29,11,2026-03-03,5379.26,GPU cloud,batch embeddings
-30,5,2026-03-03,3509.6,data labeling,review labels
-31,4,2026-03-04,3354.89,GPU cloud,batch embeddings
-32,8,2026-03-04,1096.11,software,monitoring tool
-33,7,2026-03-07,5408.74,GPU cloud,batch embeddings
-34,10,2026-03-09,384.72,software,API credits
-35,5,2026-03-11,883.56,travel,demo day travel
-36,4,2026-03-11,621.92,software,API credits
-37,10,2026-03-16,803.47,software,vector database plan
+16,5,2026-01-26,380.87,software,monitoring tool
+17,10,2026-01-29,511.89,GPU cloud,eval runs
+18,5,2026-01-29,533.82,software,monitoring tool
+19,11,2026-02-05,339.28,software,dev tools
+20,1,2026-02-08,1800.14,data labeling,review labels
+21,7,2026-02-11,1044.57,software,dev tools
+22,3,2026-02-12,1144.01,travel,client visit
+23,10,2026-02-15,1169.75,software,dev tools
+24,5,2026-02-15,3653.31,GPU cloud,inference hosting
+25,1,2026-02-21,301.62,travel,train to client
+26,3,2026-02-23,948.68,software,monitoring tool
+27,7,2026-03-03,1188.66,GPU cloud,fine-tuning run
+28,11,2026-03-03,5379.26,GPU cloud,batch embeddings
+29,5,2026-03-03,3509.6,data labeling,review labels
+30,4,2026-03-04,3354.89,GPU cloud,batch embeddings
+31,8,2026-03-04,1096.11,software,monitoring tool
+32,10,2026-03-09,384.72,software,API credits
+33,12,2026-03-09,903.82,software,API credits
+34,5,2026-03-11,883.56,travel,demo day travel
+35,4,2026-03-11,621.92,software,API credits
+36,1,2026-03-14,2850.21,data labeling,annotation vendor
+37,2,2026-03-17,2981.42,GPU cloud,eval runs
 38,8,2026-03-17,481.0,software,dev tools
 39,3,2026-03-20,2678.51,data labeling,"label 1,000 examples"
 40,1,2026-03-21,715.15,software,monitoring tool
-41,7,2026-03-22,1096.95,software,API credits
-42,12,2026-03-24,1035.65,software,vector database plan
-43,3,2026-03-24,244.4,software,vector database plan
-44,10,2026-03-25,249.3,software,monitoring tool
-45,10,2026-03-25,555.41,software,vector database plan
-46,2,2026-03-26,883.64,travel,train to client
-47,2,2026-03-27,2055.85,data labeling,annotation vendor
-48,2,2026-03-28,3418.91,data labeling,"label 1,000 examples"
-49,5,2026-03-29,468.78,software,API credits
-50,12,2026-03-29,222.12,software,API credits
+41,12,2026-03-24,1035.65,software,vector database plan
+42,3,2026-03-24,244.4,software,vector database plan
+43,10,2026-03-25,249.3,software,monitoring tool
+44,10,2026-03-25,555.41,software,vector database plan
+45,2,2026-03-26,883.64,travel,train to client
+46,2,2026-03-27,2055.85,data labeling,annotation vendor
+47,11,2026-03-29,2502.39,GPU cloud,batch embeddings
+48,5,2026-03-29,468.78,software,API credits
+49,12,2026-03-29,222.12,software,API credits
+50,2,2026-03-29,2836.48,data labeling,"label 1,000 examples"
 51,2,2026-03-30,1646.79,data labeling,"label 1,000 examples"
 52,3,2026-04-01,1284.01,travel,client visit
 53,12,2026-04-02,734.96,software,monitoring tool
 54,10,2026-04-03,973.28,software,vector database plan
 55,2,2026-04-06,1972.7,travel,client visit
-56,10,2026-04-07,711.96,software,vector database plan
-57,7,2026-04-09,1640.95,travel,train to client
-58,3,2026-04-10,1963.23,data labeling,review labels
-59,4,2026-04-13,4175.82,GPU cloud,eval runs
-60,3,2026-04-13,3672.65,data labeling,"label 1,000 examples"
-61,8,2026-04-13,1415.11,data labeling,review labels
-62,6,2026-04-13,3267.4,data labeling,annotation vendor
+56,10,2026-04-07,4318.37,GPU cloud,batch embeddings
+57,10,2026-04-07,711.96,software,vector database plan
+58,7,2026-04-09,1640.95,travel,train to client
+59,3,2026-04-10,1963.23,data labeling,review labels
+60,8,2026-04-13,1415.11,data labeling,review labels
+61,6,2026-04-13,3267.4,data labeling,annotation vendor
+62,7,2026-04-15,1056.94,software,API credits
 63,12,2026-04-15,886.08,software,monitoring tool
-64,5,2026-04-18,380.98,software,monitoring tool
+64,6,2026-04-15,587.46,software,dev tools
 65,6,2026-04-18,2155.75,data labeling,"label 1,000 examples"
-66,1,2026-04-19,3984.32,data labeling,review labels
-67,12,2026-04-21,936.33,software,dev tools
+66,10,2026-04-18,452.9,software,vector database plan
+67,1,2026-04-19,3984.32,data labeling,review labels
 68,6,2026-04-22,1087.62,software,API credits
 69,11,2026-04-23,472.2,software,monitoring tool
-70,3,2026-04-25,4585.13,GPU cloud,batch embeddings
-71,1,2026-04-26,4332.74,GPU cloud,batch embeddings
-72,11,2026-04-27,3370.69,GPU cloud,inference hosting
-73,6,2026-04-27,4577.42,GPU cloud,eval runs
-74,7,2026-04-29,3814.54,data labeling,annotation vendor
-75,1,2026-05-02,2026.17,GPU cloud,fine-tuning run
-76,11,2026-05-03,2251.39,GPU cloud,fine-tuning run
-77,6,2026-05-06,184.06,software,dev tools
-78,8,2026-05-09,856.76,data labeling,"label 1,000 examples"
-79,4,2026-05-12,1718.49,data labeling,annotation vendor
-80,11,2026-05-16,408.59,software,API credits
-81,12,2026-05-16,901.35,software,dev tools
-82,12,2026-05-18,267.41,software,dev tools
-83,9,2026-05-20,842.13,software,vector database plan
-84,2,2026-05-22,3698.61,GPU cloud,fine-tuning run
-85,4,2026-05-25,3287.41,data labeling,"label 1,000 examples"
-86,12,2026-05-27,371.57,software,API credits
-87,11,2026-05-29,1010.6,software,vector database plan
-88,6,2026-05-31,1689.08,data labeling,annotation vendor
-89,12,2026-06-04,988.17,software,vector database plan
-90,10,2026-06-04,47.39,software,API credits
-91,10,2026-06-04,1041.71,software,API credits
-92,4,2026-06-06,1042.42,data labeling,review labels
-93,8,2026-06-10,772.73,travel,train to client
-94,4,2026-06-11,238.83,software,dev tools
-95,12,2026-06-14,607.39,software,API credits
-96,2,2026-06-15,4999.17,GPU cloud,fine-tuning run
-97,10,2026-06-20,1056.94,software,API credits
-98,6,2026-06-20,474.17,GPU cloud,eval runs
-99,10,2026-06-20,233.09,software,API credits
-100,4,2026-06-25,599.56,travel,demo day travel
+70,2,2026-04-24,846.76,GPU cloud,batch embeddings
+71,3,2026-04-25,4585.13,GPU cloud,batch embeddings
+72,1,2026-04-26,4332.74,GPU cloud,batch embeddings
+73,11,2026-04-27,3370.69,GPU cloud,inference hosting
+74,6,2026-04-27,4577.42,GPU cloud,eval runs
+75,6,2026-04-27,554.09,data labeling,annotation vendor
+76,6,2026-04-28,156.53,travel,train to client
+77,7,2026-04-29,3814.54,data labeling,annotation vendor
+78,1,2026-05-02,2026.17,GPU cloud,fine-tuning run
+79,11,2026-05-03,2251.39,GPU cloud,fine-tuning run
+80,6,2026-05-06,184.06,software,dev tools
+81,2,2026-05-08,2659.08,data labeling,review labels
+82,8,2026-05-09,856.76,data labeling,"label 1,000 examples"
+83,4,2026-05-12,1718.49,data labeling,annotation vendor
+84,12,2026-05-16,901.35,software,dev tools
+85,12,2026-05-18,267.41,software,dev tools
+86,9,2026-05-20,842.13,software,vector database plan
+87,4,2026-05-25,3287.41,data labeling,"label 1,000 examples"
+88,11,2026-05-29,1010.6,software,vector database plan
+89,10,2026-05-29,4719.9,GPU cloud,fine-tuning run
+90,12,2026-06-04,988.17,software,vector database plan
+91,10,2026-06-04,47.39,software,API credits
+92,10,2026-06-04,1041.71,software,API credits
+93,4,2026-06-06,1042.42,data labeling,review labels
+94,9,2026-06-07,634.13,software,API credits
+95,8,2026-06-10,772.73,travel,train to client
+96,4,2026-06-11,238.83,software,dev tools
+97,12,2026-06-14,607.39,software,API credits
+98,2,2026-06-15,4999.17,GPU cloud,fine-tuning run
+99,6,2026-06-20,474.17,GPU cloud,eval runs
+100,10,2026-06-20,233.09,software,API credits
 101,10,2026-06-25,1137.87,software,monitoring tool
-102,9,2026-06-27,149.78,software,vector database plan
-103,2,2026-06-27,1231.21,GPU cloud,batch embeddings
+102,2,2026-06-27,1231.21,GPU cloud,batch embeddings
+103,9,2026-06-27,1849.88,data labeling,"label 1,000 examples"
 104,4,2026-06-29,382.77,software,dev tools
 105,6,2026-06-29,838.45,data labeling,review labels
-106,2,2026-07-01,5959.31,GPU cloud,inference hosting
-107,8,2026-07-02,829.0,data labeling,review labels
-108,4,2026-07-03,2263.52,GPU cloud,fine-tuning run
-109,3,2026-07-04,3124.56,data labeling,"label 1,000 examples"
-110,3,2026-07-05,514.87,software,vector database plan
-111,3,2026-07-07,884.37,software,API credits
+106,9,2026-07-01,823.83,software,API credits
+107,2,2026-07-01,5959.31,GPU cloud,inference hosting
+108,8,2026-07-02,829.0,data labeling,review labels
+109,4,2026-07-03,2263.52,GPU cloud,fine-tuning run
+110,3,2026-07-04,3124.56,data labeling,"label 1,000 examples"
+111,3,2026-07-05,514.87,software,vector database plan
 112,3,2026-07-07,152.62,software,API credits
-113,3,2026-07-09,452.96,software,monitoring tool
-114,10,2026-07-09,933.63,software,API credits
-115,12,2026-07-10,2133.88,GPU cloud,batch embeddings
-116,12,2026-07-10,943.31,software,vector database plan
-117,8,2026-07-14,3608.48,GPU cloud,fine-tuning run
-118,3,2026-07-15,5771.25,GPU cloud,inference hosting
-119,8,2026-07-15,1123.35,software,API credits
-120,9,2026-07-16,595.22,GPU cloud,batch embeddings
-121,12,2026-07-17,374.91,software,dev tools
-122,8,2026-07-20,899.1,software,vector database plan
-123,4,2026-07-23,2815.73,GPU cloud,batch embeddings
-124,8,2026-07-25,4706.39,GPU cloud,fine-tuning run
-125,4,2026-07-26,1001.63,data labeling,annotation vendor
-126,3,2026-07-27,2395.5,data labeling,annotation vendor
-127,2,2026-07-29,4078.68,GPU cloud,fine-tuning run
-128,9,2026-07-30,255.3,software,dev tools
-129,3,2026-08-01,141.33,software,vector database plan
-130,6,2026-08-03,2909.71,GPU cloud,batch embeddings
-131,6,2026-08-03,1989.76,data labeling,"label 1,000 examples"
-132,6,2026-08-04,1527.83,travel,demo day travel
-133,10,2026-08-06,219.15,software,monitoring tool
-134,10,2026-08-06,112.73,software,dev tools
-135,3,2026-08-06,1007.95,GPU cloud,eval runs
-136,4,2026-08-11,529.61,data labeling,annotation vendor
-137,6,2026-08-17,1173.46,GPU cloud,inference hosting
-138,3,2026-08-17,362.17,software,dev tools
-139,4,2026-08-19,101.91,software,dev tools
-140,4,2026-08-20,5510.64,GPU cloud,batch embeddings
-141,2,2026-08-22,1798.82,data labeling,annotation vendor
-142,8,2026-08-22,1854.4,travel,train to client
-143,12,2026-08-23,753.79,software,API credits
-144,12,2026-08-28,772.95,software,dev tools
-145,3,2026-08-28,847.78,travel,train to client
-146,10,2026-08-30,385.37,software,dev tools
-147,4,2026-08-30,1006.72,GPU cloud,inference hosting
-148,12,2026-08-31,110.48,software,vector database plan
-149,2,2026-09-06,3844.37,GPU cloud,eval runs
-150,9,2026-09-08,654.37,software,monitoring tool
-151,6,2026-09-10,663.35,software,dev tools
-152,9,2026-09-12,3819.89,GPU cloud,fine-tuning run
-153,4,2026-09-14,3733.87,GPU cloud,fine-tuning run
-154,8,2026-09-15,5787.98,GPU cloud,batch embeddings
-155,9,2026-09-16,1981.93,GPU cloud,fine-tuning run
-156,12,2026-09-20,957.38,software,API credits
-157,12,2026-09-22,364.1,software,API credits
-158,3,2026-09-23,1166.94,software,API credits
-159,6,2026-09-23,1887.99,GPU cloud,eval runs
-160,10,2026-09-24,931.83,software,dev tools
-161,3,2026-09-30,452.1,software,monitoring tool
-162,6,2026-09-30,1935.18,data labeling,"label 1,000 examples"
-163,10,2026-10-05,117.08,software,dev tools
-164,12,2026-10-06,788.98,software,monitoring tool
-165,3,2026-10-07,876.04,software,vector database plan
-166,6,2026-10-09,3277.21,data labeling,annotation vendor
-167,9,2026-10-10,1175.53,software,monitoring tool
-168,6,2026-10-12,2811.87,GPU cloud,inference hosting
-169,4,2026-10-13,122.24,software,vector database plan
-170,6,2026-10-13,879.97,GPU cloud,inference hosting
-171,8,2026-10-17,3667.8,data labeling,"label 1,000 examples"
-172,6,2026-10-18,3065.79,GPU cloud,batch embeddings
-173,9,2026-10-19,1585.83,GPU cloud,batch embeddings
-174,9,2026-10-20,764.32,software,API credits
-175,10,2026-10-20,3694.6,GPU cloud,batch embeddings
-176,12,2026-10-22,4589.44,GPU cloud,inference hosting
-177,3,2026-10-27,4292.25,GPU cloud,inference hosting
-178,8,2026-10-27,2657.2,GPU cloud,eval runs
-179,9,2026-10-28,1506.54,travel,train to client
-180,4,2026-10-30,1035.14,data labeling,annotation vendor
+113,10,2026-07-09,933.63,software,API credits
+114,12,2026-07-10,943.31,software,vector database plan
+115,8,2026-07-15,1123.35,software,API credits
+116,9,2026-07-16,595.22,GPU cloud,batch embeddings
+117,9,2026-07-16,733.71,data labeling,"label 1,000 examples"
+118,8,2026-07-16,5659.4,GPU cloud,eval runs
+119,12,2026-07-17,374.91,software,dev tools
+120,8,2026-07-17,869.07,software,API credits
+121,8,2026-07-20,899.1,software,vector database plan
+122,8,2026-07-25,4706.39,GPU cloud,fine-tuning run
+123,4,2026-07-26,1001.63,data labeling,annotation vendor
+124,3,2026-07-27,2395.5,data labeling,annotation vendor
+125,2,2026-07-29,4078.68,GPU cloud,fine-tuning run
+126,9,2026-07-30,255.3,software,dev tools
+127,3,2026-08-01,141.33,software,vector database plan
+128,6,2026-08-03,2909.71,GPU cloud,batch embeddings
+129,6,2026-08-03,1989.76,data labeling,"label 1,000 examples"
+130,6,2026-08-04,1527.83,travel,demo day travel
+131,10,2026-08-06,112.73,software,dev tools
+132,3,2026-08-06,1007.95,GPU cloud,eval runs
+133,6,2026-08-12,682.69,software,monitoring tool
+134,6,2026-08-17,1173.46,GPU cloud,inference hosting
+135,3,2026-08-17,362.17,software,dev tools
+136,4,2026-08-19,101.91,software,dev tools
+137,2,2026-08-22,1798.82,data labeling,annotation vendor
+138,8,2026-08-22,1854.4,travel,train to client
+139,12,2026-08-23,753.79,software,API credits
+140,4,2026-08-23,5708.27,GPU cloud,fine-tuning run
+141,12,2026-08-28,772.95,software,dev tools
+142,3,2026-08-28,847.78,travel,train to client
+143,4,2026-08-30,1006.72,GPU cloud,inference hosting
+144,12,2026-08-31,110.48,software,vector database plan
+145,9,2026-09-03,1002.94,software,vector database plan
+146,2,2026-09-06,3844.37,GPU cloud,eval runs
+147,12,2026-09-07,195.25,software,API credits
+148,9,2026-09-08,654.37,software,monitoring tool
+149,9,2026-09-10,2183.19,GPU cloud,fine-tuning run
+150,9,2026-09-12,3819.89,GPU cloud,fine-tuning run
+151,4,2026-09-14,3733.87,GPU cloud,fine-tuning run
+152,8,2026-09-15,5787.98,GPU cloud,batch embeddings
+153,9,2026-09-16,1981.93,GPU cloud,fine-tuning run
+154,12,2026-09-20,957.38,software,API credits
+155,6,2026-09-23,1887.99,GPU cloud,eval runs
+156,10,2026-09-24,931.83,software,dev tools
+157,12,2026-09-26,984.1,software,API credits
+158,2,2026-09-26,2643.86,GPU cloud,batch embeddings
+159,3,2026-09-30,452.1,software,monitoring tool
+160,6,2026-09-30,1935.18,data labeling,"label 1,000 examples"
+161,10,2026-10-05,117.08,software,dev tools
+162,12,2026-10-06,788.98,software,monitoring tool
+163,3,2026-10-07,876.04,software,vector database plan
+164,6,2026-10-09,3277.21,data labeling,annotation vendor
+165,9,2026-10-10,1175.53,software,monitoring tool
+166,6,2026-10-12,2811.87,GPU cloud,inference hosting
+167,4,2026-10-13,122.24,software,vector database plan
+168,6,2026-10-13,879.97,GPU cloud,inference hosting
+169,2,2026-10-13,3265.08,data labeling,"label 1,000 examples"
+170,6,2026-10-18,3065.79,GPU cloud,batch embeddings
+171,9,2026-10-19,1585.83,GPU cloud,batch embeddings
+172,10,2026-10-20,3694.6,GPU cloud,batch embeddings
+173,12,2026-10-21,911.05,software,API credits
+174,12,2026-10-22,4589.44,GPU cloud,inference hosting
+175,8,2026-10-23,971.39,GPU cloud,inference hosting
+176,3,2026-10-27,4292.25,GPU cloud,inference hosting
+177,8,2026-10-27,2657.2,GPU cloud,eval runs
+178,9,2026-10-28,1506.54,travel,train to client
+179,4,2026-10-30,1035.14,data labeling,annotation vendor
+180,8,2026-10-31,1302.83,data labeling,annotation vendor

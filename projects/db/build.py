@@ -128,7 +128,7 @@ def _(mo):
     seed, so it writes the same files every time.
 
     The data obeys every rule except one, broken on purpose for question 7:
-    **tasks 165 and 225** are assigned to somebody who does not work on the
+    **tasks 67 and 79** are assigned to somebody who does not work on the
     task's project. The tables accept these two rows, because the rule
     compares a task with the assignments table, and a CHECK only sees one
     row. Question 7 in Part B finds them with a query.
@@ -177,7 +177,9 @@ def _(mo):
 
     Tasks created each month, read straight from `tasks.csv` with polars.
 
-    This looks realistic for a growing startup: tasks rise from a handful in November to a peak in May as the team hires and starts more projects, and October jumps again with planning work for the two new projects.
+    **TODO: This looks realistic for a growing startup: tasks start in December,
+    when the first people join projects, rise to a peak in May as the team grows,
+    dip over the summer, and climb again in the fall as new projects start..**
     """)
     return
 
